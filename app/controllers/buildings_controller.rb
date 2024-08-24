@@ -29,7 +29,7 @@ class BuildingsController < ApplicationController
 
   def update
     if @building.update(building_params)
-      redirect_to building_url(@building), notice: I18m.t('buildings.update')
+      redirect_to building_url(@building), notice: I18n.t('buildings.update')
     else
       render :edit, status: :unprocessable_entity
     end

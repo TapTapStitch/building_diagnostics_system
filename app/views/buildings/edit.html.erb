@@ -1,8 +1,6 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing building</h1>
-
-  <%= render 'form', building: @building %>
-
-  <%= link_to 'Show this building', @building, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
-  <%= link_to 'Back to buildings', buildings_path, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
-</div>
+<%= turbo_frame_tag :building_turbo do %>
+  <div class="border border-gray-300 rounded-lg mb-4 p-4">
+    <%= render 'form', building: @building %>
+    <%= link_to 'Cancel', '#turbo', data: { turbo_frame: :building_turbo }, class: 'rounded-lg py-3 px-5 bg-gray-600 text-white inline-block font-medium cursor-pointer' %>
+  </div>
+<% end %>

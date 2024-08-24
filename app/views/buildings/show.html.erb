@@ -1,10 +1,12 @@
 <div class="mx-auto md:w-2/3 w-full flex flex-col">
   <div class="mx-auto">
-    <div class="border border-gray-300 rounded-lg mb-4 p-4">
-      <%= render @building %>
-    </div>
+    <%= turbo_frame_tag :building_turbo do %>
+      <div class="border border-gray-300 rounded-lg mb-4 p-4">
+        <%= render @building %>
+      </div>
+    <% end %>
 
-    <%= link_to 'Edit this building', edit_building_path(@building), class: 'mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
+    <%= link_to 'Edit this building', edit_building_path(@building), data: { turbo_frame: :building_turbo }, class: 'mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
     <%= link_to 'Back to buildings', buildings_path, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium' %>
     <div class="inline-block ml-2">
       <%= button_to 'Destroy this building', @building, method: :delete, data: { turbo_confirm: 'Are you sure you want to destroy this building?' }, class: 'mt-2 rounded-lg py-3 px-5 bg-red-500 text-white font-medium' %>
