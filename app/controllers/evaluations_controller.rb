@@ -9,7 +9,7 @@ class EvaluationsController < ApplicationController
     if @evaluation.save
       redirect_to building_url(@defect.building), notice: I18n.t('evaluations.create')
     else
-      render 'buildings/show', status: :unprocessable_entity
+      redirect_to building_url(@defect.building), status: :unprocessable_entity
     end
   end
 
@@ -17,7 +17,7 @@ class EvaluationsController < ApplicationController
     if @evaluation.update(evaluation_params)
       redirect_to building_url(@defect.building), notice: I18n.t('evaluations.update')
     else
-      render 'buildings/show', status: :unprocessable_entity
+      redirect_to building_url(@defect.building), status: :unprocessable_entity
     end
   end
 

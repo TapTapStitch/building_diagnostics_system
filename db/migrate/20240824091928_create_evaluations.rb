@@ -6,6 +6,7 @@ class CreateEvaluations < ActiveRecord::Migration[7.1]
       t.decimal :rating, precision: 2, scale: 1, null: false
 
       t.timestamps
+      t.index [:defect_id, :expert_id], unique: true
     end
   end
 end

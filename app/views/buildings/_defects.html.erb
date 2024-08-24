@@ -1,0 +1,36 @@
+<div class="mt-8">
+  <h2 class="text-2xl font-bold mb-4">Defects</h2>
+  <% if @defects.any? %>
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
+      <thead>
+      <tr>
+        <th class="py-2 px-4 border-b">Name</th>
+        <th class="py-2 px-4 border-b">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @defects.each do |defect| %>
+        <tr class="flex flex-wrap justify-between items-center">
+          <td class="py-2 px-4 border-b flex-1"><%= defect.name %></td>
+          <td class="py-2 px-4 border-b">
+            <%= link_to 'Delete', building_defect_path(@building, defect), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'bg-red-500 text-white rounded px-4 py-2' %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-gray-600 mb-4">No defects found. Add a new defect below:</p>
+  <% end %>
+
+  <h3 class="text-xl font-bold mb-4">Add a new defect</h3>
+  <%= form_with model: [@building, Defect.new], local: true, class: 'mb-8' do |form| %>
+    <div class="mb-4">
+      <%= form.label :name, class: 'block text-gray-700' %>
+      <%= form.text_field :name, class: 'border border-gray-300 rounded p-2 w-full' %>
+    </div>
+    <div>
+      <%= form.submit 'Add Defect', class: 'bg-green-500 text-white rounded px-4 py-2' %>
+    </div>
+  <% end %>
+</div>

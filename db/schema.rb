@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_091928) do
     t.decimal "rating", precision: 2, scale: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["defect_id", "expert_id"], name: "index_evaluations_on_defect_id_and_expert_id", unique: true
     t.index ["defect_id"], name: "index_evaluations_on_defect_id"
     t.index ["expert_id"], name: "index_evaluations_on_expert_id"
   end

@@ -9,7 +9,7 @@ class ExpertsController < ApplicationController
     if @expert.save
       redirect_to building_url(@building), notice: I18n.t('experts.create')
     else
-      render 'buildings/show', status: :unprocessable_entity
+      redirect_to building_url(@building), status: :unprocessable_entity
     end
   end
 
@@ -17,7 +17,7 @@ class ExpertsController < ApplicationController
     if @expert.update(expert_params)
       redirect_to building_url(@building), notice: I18n.t('experts.update')
     else
-      render 'buildings/show', status: :unprocessable_entity
+      redirect_to building_url(@building), status: :unprocessable_entity
     end
   end
 

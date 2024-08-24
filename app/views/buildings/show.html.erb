@@ -11,61 +11,45 @@
     </div>
   </div>
 
-  <div class="mt-8">
-    <h2 class="text-2xl font-bold mb-4">Defects</h2>
-    <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
-      <thead>
-      <tr>
-        <th class="py-2 px-4 border-b">Name</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @defects.each do |defect| %>
-        <tr>
-          <td class="py-2 px-4 border-b"><%= defect.name %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
+  <%= render 'buildings/defects' %>
 
-    <h3 class="text-xl font-bold mb-4">Add a new defect</h3>
-    <%= form_with model: [@building, @defect], local: true, class: "mb-8" do |form| %>
-      <div class="mb-4">
-        <%= form.label :name, class: "block text-gray-700" %>
-        <%= form.text_field :name, class: "border border-gray-300 rounded p-2 w-full" %>
-      </div>
-      <div>
-        <%= form.submit "Add Defect", class: "bg-green-500 text-white rounded px-4 py-2" %>
-      </div>
-    <% end %>
-  </div>
+  <%= render 'buildings/experts' %>
 
   <div class="mt-8">
-    <h2 class="text-2xl font-bold mb-4">Experts</h2>
-    <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
-      <thead>
-      <tr>
-        <th class="py-2 px-4 border-b">Name</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @experts.each do |expert| %>
+    <h2 class="text-2xl font-bold mb-4">Evaluations</h2>
+    <% @defects.each do |defect| %>
+      <h3 class="text-xl font-bold mb-2">Evaluations for <%= defect.name %></h3>
+      <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
+        <thead>
         <tr>
-          <td class="py-2 px-4 border-b"><%= expert.name %></td>
+          <th class="py-2 px-4 border-b">Expert</th>
+          <th class="py-2 px-4 border-b">Rating</th>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% defect.evaluations.each do |evaluation| %>
+          <tr>
+            <td class="py-2 px-4 border-b"><%= evaluation.expert.name %></td>
+            <td class="py-2 px-4 border-b"><%= evaluation.rating %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
 
-    <h3 class="text-xl font-bold mb-4">Add a new expert</h3>
-    <%= form_with model: [@building, @expert], local: true, class: "mb-8" do |form| %>
-      <div class="mb-4">
-        <%= form.label :name, class: "block text-gray-700" %>
-        <%= form.text_field :name, class: "border border-gray-300 rounded p-2 w-full" %>
-      </div>
-      <div>
-        <%= form.submit "Add Expert", class: "bg-green-500 text-white rounded px-4 py-2" %>
-      </div>
+      <h4 class="text-lg font-bold mb-4">Add a new evaluation for <%= defect.name %></h4>
+      <%= form_with model: Evaluation.new, url: building_defect_evaluations_path(@building, defect), local: true, class: 'mb-8' do |form| %>
+        <div class="mb-4">
+          <%= form.label :expert_id, class: 'block text-gray-700' %>
+          <%= form.collection_select :expert_id, @building.experts, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
+        </div>
+        <div class="mb-4">
+          <%= form.label :rating, class: 'block text-gray-700' %>
+          <%= form.number_field :rating, step: 0.1, min: 0, max: 1, class: 'border border-gray-300 rounded p-2 w-full' %>
+        </div>
+        <div>
+          <%= form.submit 'Add Evaluation', class: 'bg-green-500 text-white rounded px-4 py-2' %>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

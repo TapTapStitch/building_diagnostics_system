@@ -10,9 +10,6 @@ class BuildingsController < ApplicationController
   def show
     @defects = @building.defects
     @experts = @building.experts
-    @defect = @building.defects.build
-    @expert = @building.experts.build
-    @evaluation = Evaluation.new
   end
 
   def new

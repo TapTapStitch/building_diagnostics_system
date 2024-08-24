@@ -9,7 +9,7 @@ class DefectsController < ApplicationController
     if @defect.save
       redirect_to building_url(@building), notice: I18n.t('defects.create')
     else
-      render 'buildings/show', status: :unprocessable_entity
+      redirect_to building_url(@building), status: :unprocessable_entity
     end
   end
 
@@ -17,7 +17,7 @@ class DefectsController < ApplicationController
     if @defect.update(defect_params)
       redirect_to building_url(@building), notice: I18n.t('defects.update')
     else
-      render 'buildings/show', status: :unprocessable_entity
+      redirect_to building_url(@building), status: :unprocessable_entity
     end
   end
 
