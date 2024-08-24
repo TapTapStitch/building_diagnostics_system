@@ -1,4 +1,4 @@
-<%= turbo_frame_tag :defects_turbo, class: 'mt-8' do %>
+<%= turbo_frame_tag :defects_list, class: 'mt-8' do %>
   <h2 class="text-2xl font-bold mb-4">Defects</h2>
   <% if @defects.any? %>
     <div class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
@@ -20,16 +20,5 @@
     </div>
   <% else %>
     <p class="text-gray-600 mb-4">No defects found. Add a new defect below:</p>
-  <% end %>
-
-  <h3 class="text-xl font-bold mb-4">Add a new defect</h3>
-  <%= form_with model: [@building, Defect.new], local: true, class: 'mb-8' do |form| %>
-    <div class="mb-4">
-      <%= form.label :name, class: 'block text-gray-700' %>
-      <%= form.text_field :name, class: 'border border-gray-300 rounded p-2 w-full' %>
-    </div>
-    <div>
-      <%= form.submit 'Add Defect', class: 'bg-green-500 text-white rounded px-4 py-2' %>
-    </div>
   <% end %>
 <% end %>
