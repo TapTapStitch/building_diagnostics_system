@@ -1,0 +1,89 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-md
+
+AllCops:
+  Exclude:
+    - "bin/**/*"
+    - "db/**/*"
+  TargetRubyVersion: 3.3.4
+  NewCops: enable
+
+Metrics/BlockLength:
+  Exclude:
+    - "app/admin/*"
+    - "config/environments/development.rb"
+
+Lint/MissingSuper:
+  Enabled: false
+
+# Style -----------------------------------------------------------------------
+
+Style/Documentation:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Rails/DeprecatedActiveModelErrorsMethods:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - development
+    - test
+# Layout ----------------------------------------------------------------------
+
+Layout/LineLength:
+  Max: 200
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/ClassStructure:
+  Enabled: true
+  Categories:
+    association:
+      - has_one
+      - has_many
+    attribute_macros:
+      - attr_accessor
+      - attr_reader
+      - attr_writer
+    macros:
+      - validates
+      - validate
+    module_inclusion:
+      - include
+      - prepend
+      - extend
+  ExpectedOrder:
+    - module_inclusion
+    - constants
+    - association
+    - public_attribute_macros
+    - public_delegate
+    - macros
+    - public_class_methods
+    - initializer
+    - public_methods
+    - protected_attribute_macros
+    - protected_methods
+    - private_attribute_macros
+    - private_delegate
+    - private_methods
+
+# rubocop-md ----------------------------------------------------------------------
+
+Markdown:
+  WarnInvalid: true
+  Autodetect: true
