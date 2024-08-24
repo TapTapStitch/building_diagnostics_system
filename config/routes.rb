@@ -3,9 +3,11 @@
 Rails.application.routes.draw do
   root 'buildings#index'
   resources :buildings do
-    resources :defects, only: %i[edit create update destroy]
-    resources :experts, only: %i[edit create update destroy]
-    resources :evaluations, only: %i[edit create update destroy]
+    scope module: :buildings do
+      resources :defects, only: %i[edit create update destroy]
+      resources :experts, only: %i[edit create update destroy]
+      resources :evaluations, only: %i[edit create update destroy]
+    end
   end
 
   get 'up' => 'rails/health#show', as: :rails_health_check
