@@ -4,15 +4,26 @@ en:
     update: Building was successfully updated.
     destroy: Building was successfully destroyed.
   evaluations:
-    create: Evaluation was successfully created.
-    update: Evaluation was successfully updated.
+    create:
+      success: Evaluation was successfully created.
+      failure: Evaluation was not created.
+    update:
+      success: Evaluation was successfully updated.
+      failure: Evaluation was not updated.
     destroy: Evaluation was successfully destroyed.
-    error: Can only be evaluated once by the same expert
   experts:
-    create: Expert was successfully created.
-    update: Expert was successfully updated.
+    create:
+      success: Expert was successfully created.
+      failure: Expert was not created.
+    update:
+      success: Expert was successfully updated.
+      failure: Expert was not updated.
     destroy: Expert was successfully destroyed.
   defects:
-    create: Defect was successfully created.
-    update: Defect was successfully updated.
+    create:
+      success: Defect was successfully created.
+      failure: Defect was not created.
+    update:
+      success: Defect was successfully updated.
+      failure: Defect was not updated.
     destroy: Defect was successfully destroyed.

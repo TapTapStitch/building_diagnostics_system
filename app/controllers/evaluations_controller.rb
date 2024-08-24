@@ -7,17 +7,17 @@ class EvaluationsController < ApplicationController
   def create
     @evaluation = @defect.evaluations.build(evaluation_params)
     if @evaluation.save
-      redirect_to building_url(@defect.building), notice: I18n.t('evaluations.create')
+      redirect_to building_url(@defect.building), notice: I18n.t('evaluations.create.success')
     else
-      redirect_to building_url(@defect.building), status: :unprocessable_entity
+      redirect_to building_url(@defect.building), alert: I18n.t('evaluations.create.failure')
     end
   end
 
   def update
     if @evaluation.update(evaluation_params)
-      redirect_to building_url(@defect.building), notice: I18n.t('evaluations.update')
+      redirect_to building_url(@defect.building), notice: I18n.t('evaluations.update.success')
     else
-      redirect_to building_url(@defect.building), status: :unprocessable_entity
+      redirect_to building_url(@defect.building), alert: I18n.t('evaluations.update.failure')
     end
   end
 

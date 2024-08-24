@@ -7,17 +7,17 @@ class DefectsController < ApplicationController
   def create
     @defect = @building.defects.build(defect_params)
     if @defect.save
-      redirect_to building_url(@building), notice: I18n.t('defects.create')
+      redirect_to building_url(@building), notice: I18n.t('defects.create.success')
     else
-      redirect_to building_url(@building), status: :unprocessable_entity
+      redirect_to building_url(@building), alert: I18n.t('defects.create.failure')
     end
   end
 
   def update
     if @defect.update(defect_params)
-      redirect_to building_url(@building), notice: I18n.t('defects.update')
+      redirect_to building_url(@building), notice: I18n.t('defects.update.success')
     else
-      redirect_to building_url(@building), status: :unprocessable_entity
+      redirect_to building_url(@building), alert: I18n.t('defects.update.failure')
     end
   end
 

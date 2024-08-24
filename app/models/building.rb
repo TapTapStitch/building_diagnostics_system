@@ -4,5 +4,5 @@ class Building < ApplicationRecord
   has_many :defects, dependent: :destroy
   has_many :experts, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, :address, presence: true
 end

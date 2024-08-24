@@ -7,17 +7,17 @@ class ExpertsController < ApplicationController
   def create
     @expert = @building.experts.build(expert_params)
     if @expert.save
-      redirect_to building_url(@building), notice: I18n.t('experts.create')
+      redirect_to building_url(@building), notice: I18n.t('experts.create.success')
     else
-      redirect_to building_url(@building), status: :unprocessable_entity
+      redirect_to building_url(@building), alert: I18n.t('experts.create.failure')
     end
   end
 
   def update
     if @expert.update(expert_params)
-      redirect_to building_url(@building), notice: I18n.t('experts.update')
+      redirect_to building_url(@building), notice: I18n.t('experts.update.success')
     else
-      redirect_to building_url(@building), status: :unprocessable_entity
+      redirect_to building_url(@building), alert: I18n.t('experts.update.failure')
     end
   end
 
