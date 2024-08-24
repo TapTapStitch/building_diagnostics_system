@@ -3,3 +3,5 @@ en:
     create: Building was successfully created.
     update: Building was successfully updated.
     destroy: Building was successfully destroyed.
+  evaluations:
+    error: Can only be evaluated once by the same expert

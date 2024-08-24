@@ -1,0 +1,11 @@
+class CreateEvaluations < ActiveRecord::Migration[7.1]
+  def change
+    create_table :evaluations, id: :uuid do |t|
+      t.references :defect, null: false, foreign_key: true, type: :uuid
+      t.references :expert, null: false, foreign_key: true, type: :uuid
+      t.decimal :rating, precision: 2, scale: 1, null: false
+
+      t.timestamps
+    end
+  end
+end

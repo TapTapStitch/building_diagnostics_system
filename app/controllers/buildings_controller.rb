@@ -7,7 +7,13 @@ class BuildingsController < ApplicationController
     @buildings = Building.all
   end
 
-  def show; end
+  def show
+    @defects = @building.defects
+    @experts = @building.experts
+    @defect = @building.defects.build
+    @expert = @building.experts.build
+    @evaluation = Evaluation.new
+  end
 
   def new
     @building = Building.new
@@ -45,6 +51,6 @@ class BuildingsController < ApplicationController
   end
 
   def building_params
-    params.require(:building).permit(:name, :adress)
+    params.require(:building).permit(:name, :address)
   end
 end
