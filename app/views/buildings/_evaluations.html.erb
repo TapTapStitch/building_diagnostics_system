@@ -1,6 +1,26 @@
 <div class="mt-8">
-  <h2 class="text-2xl font-bold mb-4">Evaluations</h2>
-  <% @defects.each do |defect| %>
+  <h2 class="text-2xl font-bold mb-4">Add a new evaluation</h2>
+  <%= form_with model: Evaluation.new, url: building_evaluations_path(@building), local: true, class: 'mb-8' do |form| %>
+    <div class="mb-4">
+      <%= form.label :defect_id, 'Defect', class: 'block text-gray-700' %>
+      <%= form.collection_select :defect_id, @building.defects, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
+    </div>
+    <div class="mb-4">
+      <%= form.label :expert_id, 'Expert', class: 'block text-gray-700' %>
+      <%= form.collection_select :expert_id, @building.experts, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
+    </div>
+    <div class="mb-4">
+      <%= form.label :rating, class: 'block text-gray-700' %>
+      <%= form.number_field :rating, step: 0.1, min: 0, max: 1, class: 'border border-gray-300 rounded p-2 w-full' %>
+    </div>
+    <div>
+      <%= form.submit 'Add Evaluation', class: 'bg-green-500 text-white rounded px-4 py-2' %>
+    </div>
+  <% end %>
+</div>
+
+<% @defects.each do |defect| %>
+  <div class="mt-8">
     <h3 class="text-xl font-bold mb-2">Evaluations for <%= defect.name %></h3>
 
     <% if defect.evaluations.any? %>
@@ -17,7 +37,7 @@
           <tr>
             <td class="py-2 px-4 border-b"><%= evaluation.expert.name %></td>
             <td class="py-2 px-4 border-b"><%= evaluation.rating %></td>
-            <td class="py-2 px-4 border-b"><%= link_to 'Delete', building_defect_evaluation_path(@building, defect, evaluation), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'bg-red-500 text-white rounded px-4 py-2' %></td>
+            <td class="py-2 px-4 border-b"><%= link_to 'Delete', building_evaluation_path(@building, evaluation), method: :delete, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'bg-red-500 text-white rounded px-4 py-2' %></td>
           </tr>
         <% end %>
         </tbody>
@@ -25,20 +45,5 @@
     <% else %>
       <p class="mb-4 text-gray-500">No evaluations available for this defect.</p>
     <% end %>
-
-    <h4 class="text-lg font-bold mb-4">Add a new evaluation for <%= defect.name %></h4>
-    <%= form_with model: Evaluation.new, url: building_defect_evaluations_path(@building, defect), local: true, class: 'mb-8' do |form| %>
-      <div class="mb-4">
-        <%= form.label :expert_id, class: 'block text-gray-700' %>
-        <%= form.collection_select :expert_id, @building.experts, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
-      </div>
-      <div class="mb-4">
-        <%= form.label :rating, class: 'block text-gray-700' %>
-        <%= form.number_field :rating, step: 0.1, min: 0, max: 1, class: 'border border-gray-300 rounded p-2 w-full' %>
-      </div>
-      <div>
-        <%= form.submit 'Add Evaluation', class: 'bg-green-500 text-white rounded px-4 py-2' %>
-      </div>
-    <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>
