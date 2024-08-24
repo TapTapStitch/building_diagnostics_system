@@ -1,15 +1,17 @@
-<% if flash[:notice] %>
-  <div class="w-full flex justify-center">
-    <div class="bg-green-500 text-white p-4 rounded mb-4">
-      <%= flash[:notice] %>
+<%= turbo_frame_tag :flash_turbo do %>
+  <% if flash[:notice] %>
+    <div class="fixed top-0 left-0 w-full flex justify-center z-50">
+      <div class="bg-green-500 text-white p-4 rounded m-4">
+        <%= flash[:notice] %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<% if flash[:alert] %>
-  <div class="w-full flex justify-center">
-    <div class="bg-red-500 text-white p-4 rounded mb-4">
-      <%= flash[:alert] %>
+  <% if flash[:alert] %>
+    <div class="fixed top-0 left-0 w-full flex justify-center z-50">
+      <div class="bg-red-500 text-white p-4 rounded m-4">
+        <%= flash[:alert] %>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

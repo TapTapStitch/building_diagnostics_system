@@ -7,23 +7,26 @@ class ExpertsController < ApplicationController
   def create
     @expert = @building.experts.build(expert_params)
     if @expert.save
-      redirect_to building_url(@building), notice: I18n.t('experts.create.success')
+      flash.now[:notice] = I18n.t('experts.create.success')
     else
-      redirect_to building_url(@building), alert: I18n.t('experts.create.failure')
+      flash.now[:alert] = I18n.t('experts.create.failure')
     end
+    load_values
   end
 
   def update
     if @expert.update(expert_params)
-      redirect_to building_url(@building), notice: I18n.t('experts.update.success')
+      flash.now[:notice] = I18n.t('experts.update.success')
     else
-      redirect_to building_url(@building), alert: I18n.t('experts.update.failure')
+      flash.now[:alert] = I18n.t('experts.update.failure')
     end
+    load_values
   end
 
   def destroy
     @expert.destroy!
-    redirect_to building_url(@building), notice: I18n.t('experts.destroy')
+    flash.now[:notice] = I18n.t('experts.destroy')
+    load_values
   end
 
   private
@@ -34,6 +37,11 @@ class ExpertsController < ApplicationController
 
   def set_expert
     @expert = @building.experts.find(params[:id])
+  end
+
+  def load_values
+    @experts = @building.experts
+    @defects = @building.experts
   end
 
   def expert_params

@@ -7,23 +7,26 @@ class EvaluationsController < ApplicationController
   def create
     @evaluation = Evaluation.new(evaluation_params)
     if @evaluation.save
-      redirect_to @building, notice: I18n.t('evaluations.create.success')
+      flash.now[:notice] = I18n.t('evaluations.create.success')
     else
-      redirect_to @building, alert: I18n.t('evaluations.create.failure')
+      flash.now[:alert] = I18n.t('evaluations.create.failure')
     end
+    load_defects
   end
 
   def update
     if @evaluation.update(evaluation_params)
-      redirect_to @building, notice: I18n.t('evaluations.update.success')
+      flash.now[:notice] = I18n.t('evaluations.update.success')
     else
-      redirect_to @building, alert: I18n.t('evaluations.update.failure')
+      flash.now[:alert] = I18n.t('evaluations.update.failure')
     end
+    load_defects
   end
 
   def destroy
     @evaluation.destroy!
-    redirect_to @building, notice: I18n.t('evaluations.destroy')
+    flash.now[:notice] = I18n.t('evaluations.destroy')
+    load_defects
   end
 
   private
@@ -34,6 +37,10 @@ class EvaluationsController < ApplicationController
 
   def set_evaluation
     @evaluation = Evaluation.find(params[:id])
+  end
+
+  def load_defects
+    @defects = @building.defects
   end
 
   def evaluation_params

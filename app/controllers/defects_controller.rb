@@ -7,23 +7,26 @@ class DefectsController < ApplicationController
   def create
     @defect = @building.defects.build(defect_params)
     if @defect.save
-      redirect_to building_url(@building), notice: I18n.t('defects.create.success')
+      flash.now[:notice] = I18n.t('defects.create.success')
     else
-      redirect_to building_url(@building), alert: I18n.t('defects.create.failure')
+      flash.now[:alert] = I18n.t('defects.create.failure')
     end
+    load_defects
   end
 
   def update
     if @defect.update(defect_params)
-      redirect_to building_url(@building), notice: I18n.t('defects.update.success')
+      flash.now[:notice] = I18n.t('defects.update.success')
     else
-      redirect_to building_url(@building), alert: I18n.t('defects.update.failure')
+      flash.now[:alert] = I18n.t('defects.update.failure')
     end
+    load_defects
   end
 
   def destroy
     @defect.destroy!
-    redirect_to building_url(@building), notice: I18n.t('defects.destroy')
+    flash.now[:notice] = I18n.t('defects.destroy')
+    load_defects
   end
 
   private
@@ -34,6 +37,10 @@ class DefectsController < ApplicationController
 
   def set_defect
     @defect = @building.defects.find(params[:id])
+  end
+
+  def load_defects
+    @defects = @building.defects
   end
 
   def defect_params
