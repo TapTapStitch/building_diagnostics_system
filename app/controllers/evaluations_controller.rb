@@ -5,7 +5,7 @@ class EvaluationsController < ApplicationController
   before_action :set_evaluation, only: %i[update destroy]
 
   def create
-    @evaluation = @building.evaluations.build(evaluation_params)
+    @evaluation = Evaluation.new(evaluation_params)
     if @evaluation.save
       redirect_to @building, notice: I18n.t('evaluations.create.success')
     else
