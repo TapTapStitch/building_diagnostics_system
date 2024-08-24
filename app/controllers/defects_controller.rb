@@ -2,7 +2,9 @@
 
 class DefectsController < ApplicationController
   before_action :set_building
-  before_action :set_defect, only: %i[update destroy]
+  before_action :set_defect, only: %i[edit update destroy]
+
+  def edit; end
 
   def create
     @defect = @building.defects.build(defect_params)
@@ -11,7 +13,7 @@ class DefectsController < ApplicationController
     else
       flash.now[:alert] = I18n.t('defects.create.failure')
     end
-    load_defects
+    turbo_replace
   end
 
   def update
@@ -20,13 +22,13 @@ class DefectsController < ApplicationController
     else
       flash.now[:alert] = I18n.t('defects.update.failure')
     end
-    load_defects
+    turbo_replace
   end
 
   def destroy
     @defect.destroy!
     flash.now[:notice] = I18n.t('defects.destroy')
-    load_defects
+    turbo_replace
   end
 
   private
@@ -39,8 +41,9 @@ class DefectsController < ApplicationController
     @defect = @building.defects.find(params[:id])
   end
 
-  def load_defects
+  def turbo_replace
     @defects = @building.defects
+    render 'defects/turbo_replace'
   end
 
   def defect_params

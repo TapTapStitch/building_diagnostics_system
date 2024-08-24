@@ -1,24 +1,23 @@
 <%= turbo_frame_tag :defects_turbo, class: 'mt-8' do %>
   <h2 class="text-2xl font-bold mb-4">Defects</h2>
   <% if @defects.any? %>
-    <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
-      <thead>
-      <tr>
-        <th class="py-2 px-4 border-b">Name</th>
-        <th class="py-2 px-4 border-b">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
+    <div class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
+      <div class="flex flex-wrap justify-between items-center border-b">
+        <div class="py-2 px-4 flex-1 font-bold">Name</div>
+        <div class="py-2 px-4 font-bold">Actions</div>
+      </div>
       <% @defects.each do |defect| %>
-        <tr class="flex flex-wrap justify-between items-center">
-          <td class="py-2 px-4 border-b flex-1"><%= defect.name %></td>
-          <td class="py-2 px-4 border-b">
-            <%= link_to 'Delete', building_defect_path(@building, defect), method: :delete, data: { turbo_method: :delete }, class: 'bg-red-500 text-white rounded px-4 py-2' %>
-          </td>
-        </tr>
+        <%= turbo_frame_tag "defect_#{defect.id}" do %>
+          <div class="flex flex-wrap justify-between items-center border-b">
+            <div class="py-2 px-4 flex-1"><%= defect.name %></div>
+            <div class="py-2 px-4">
+              <%= link_to 'Edit', edit_building_defect_path(@building, defect), data: { turbo_frame: "defect_#{defect.id}" }, class: 'bg-blue-500 text-white rounded px-4 py-2' %>
+              <%= link_to 'Delete', building_defect_path(@building, defect), data: { turbo_method: :delete }, class: 'bg-red-500 text-white rounded px-4 py-2' %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
-      </tbody>
-    </table>
+    </div>
   <% else %>
     <p class="text-gray-600 mb-4">No defects found. Add a new defect below:</p>
   <% end %>
