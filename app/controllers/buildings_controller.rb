@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class BuildingsController < ApplicationController
-  before_action :set_building, only: %i[show edit update destroy]
+  before_action :set_building, only: %i[show edit update]
 
   def index
     @buildings = Building.all
   end
 
   def show
-    @defects = @building.defects
+    @defects = @building.defects.includes(evaluations: :expert)
     @experts = @building.experts
   end
 
@@ -36,7 +36,7 @@ class BuildingsController < ApplicationController
   end
 
   def destroy
-    @building.destroy!
+    Building.includes(defects: :evaluations, experts: :evaluations).find(params[:id]).destroy!
 
     redirect_to buildings_url, notice: I18n.t('buildings.destroy')
   end

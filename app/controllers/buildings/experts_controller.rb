@@ -45,7 +45,7 @@ module Buildings
 
     def turbo_replace
       @experts = @building.experts
-      @defects = @building.experts
+      @defects = @building.defects.includes(evaluations: :expert)
       render 'buildings/experts/turbo_replace'
     end
 

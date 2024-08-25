@@ -22,6 +22,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'bullet'
   gem 'bundler-audit', require: false
   gem 'bundler-leak', require: false
   gem 'erb_lint', require: false
