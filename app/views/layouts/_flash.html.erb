@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :flash_turbo do %>
   <% if flash[:notice] %>
-    <div class="fixed top-0 left-0 w-full flex justify-center z-50">
+    <div class="fixed top-0 left-0 w-full flex justify-center z-50" data-controller="flash">
       <div class="bg-green-500 text-white p-4 rounded m-4">
         <%= flash[:notice] %>
       </div>
@@ -8,7 +8,7 @@
   <% end %>
 
   <% if flash[:alert] %>
-    <div class="fixed top-0 left-0 w-full flex justify-center z-50">
+    <div class="fixed top-0 left-0 w-full flex justify-center z-50" data-controller="flash">
       <div class="bg-red-500 text-white p-4 rounded m-4">
         <%= flash[:alert] %>
       </div>
