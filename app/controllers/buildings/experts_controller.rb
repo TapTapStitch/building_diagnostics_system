@@ -8,7 +8,8 @@ module Buildings
     def edit; end
 
     def create
-      @expert = @building.experts.build(expert_params)
+      @expert = Expert.new(expert_params)
+      @expert.building = @building
       if @expert.save
         flash.now[:notice] = I18n.t('experts.create.success')
       else

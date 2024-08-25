@@ -8,7 +8,8 @@ module Buildings
     def edit; end
 
     def create
-      @defect = @building.defects.build(defect_params)
+      @defect = Defect.new(defect_params)
+      @defect.building = @building
       if @defect.save
         flash.now[:notice] = I18n.t('defects.create.success')
       else
