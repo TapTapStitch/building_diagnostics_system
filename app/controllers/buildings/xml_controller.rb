@@ -27,17 +27,17 @@ module Buildings
       Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
         xml.building(name: building.name, address: building.address) do
           xml.defects do
-            building.defects.each { |defect| xml.defect(name: defect.name, old_id: defect.id) }
+            building.defects.each { |defect| xml.defect(name: defect.name, id: defect.id) }
           end
 
           xml.experts do
-            building.experts.each { |expert| xml.expert(name: expert.name, old_id: expert.id) }
+            building.experts.each { |expert| xml.expert(name: expert.name, id: expert.id) }
           end
 
           xml.evaluations do
             building.defects.each do |defect|
               defect.evaluations.each do |evaluation|
-                xml.evaluation(rating: evaluation.rating, defect_old_id: defect.id, expert_old_id: evaluation.expert.id)
+                xml.evaluation(rating: evaluation.rating, defect_id: defect.id, expert_id: evaluation.expert.id)
               end
             end
           end
@@ -63,7 +63,7 @@ module Buildings
       defects = {}
       building_node.xpath('defects/defect').each do |defect_node|
         defect = building.defects.build(name: defect_node['name'])
-        defects[defect_node['old_id']] = defect
+        defects[defect_node['id']] = defect
       end
       defects
     end
@@ -72,7 +72,7 @@ module Buildings
       experts = {}
       building_node.xpath('experts/expert').each do |expert_node|
         expert = building.experts.build(name: expert_node['name'])
-        experts[expert_node['old_id']] = expert
+        experts[expert_node['id']] = expert
       end
       experts
     end
@@ -80,8 +80,8 @@ module Buildings
     def build_evaluations(building_node, defects, experts)
       evaluations = []
       building_node.xpath('evaluations/evaluation').each do |evaluation_node|
-        defect = defects[evaluation_node['defect_old_id']]
-        expert = experts[evaluation_node['expert_old_id']]
+        defect = defects[evaluation_node['defect_id']]
+        expert = experts[evaluation_node['expert_id']]
         evaluations << Evaluation.new(rating: evaluation_node['rating'], defect:, expert:)
       end
       evaluations
