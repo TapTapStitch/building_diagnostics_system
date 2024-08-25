@@ -8,12 +8,12 @@ AllCops:
   Exclude:
     - "bin/**/*"
     - "db/**/*"
+    - "app/controllers/buildings/xml_controller.rb"
   TargetRubyVersion: 3.3.4
   NewCops: enable
 
 Metrics/BlockLength:
   Exclude:
-    - "app/admin/*"
     - "config/environments/development.rb"
 
 Lint/MissingSuper:
