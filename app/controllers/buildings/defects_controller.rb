@@ -11,25 +11,25 @@ module Buildings
       @defect = Defect.new(defect_params)
       @defect.building = @building
       if @defect.save
-        flash.now[:notice] = I18n.t('defects.create.success')
+        flash.now[:notice] = t('defects.create.success')
       else
-        flash.now[:alert] = I18n.t('defects.create.failure')
+        flash.now[:alert] = t('defects.create.failure')
       end
       turbo_replace
     end
 
     def update
       if @defect.update(defect_params)
-        flash.now[:notice] = I18n.t('defects.update.success')
+        flash.now[:notice] = t('defects.update.success')
       else
-        flash.now[:alert] = I18n.t('defects.update.failure')
+        flash.now[:alert] = t('defects.update.failure')
       end
       turbo_replace
     end
 
     def destroy
       @defect.destroy!
-      flash.now[:notice] = I18n.t('defects.destroy')
+      flash.now[:notice] = t('defects.destroy')
       turbo_replace
     end
 

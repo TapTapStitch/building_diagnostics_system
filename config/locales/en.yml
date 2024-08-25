@@ -3,6 +3,11 @@ en:
     create: Building was successfully created.
     update: Building was successfully updated.
     destroy: Building was successfully destroyed.
+    xml:
+      import:
+        success: Building data imported successfully.
+        failure: Building data was not imported due to some error.
+        no_file: Uploaded file is not a valid XML file.
   evaluations:
     create:
       success: Evaluation was successfully created.

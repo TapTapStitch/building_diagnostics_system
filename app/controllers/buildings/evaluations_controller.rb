@@ -10,25 +10,25 @@ module Buildings
     def create
       @evaluation = Evaluation.new(evaluation_params)
       if @evaluation.save
-        flash.now[:notice] = I18n.t('evaluations.create.success')
+        flash.now[:notice] = t('evaluations.create.success')
       else
-        flash.now[:alert] = I18n.t('evaluations.create.failure')
+        flash.now[:alert] = t('evaluations.create.failure')
       end
       turbo_replace
     end
 
     def update
       if @evaluation.update(evaluation_params)
-        flash.now[:notice] = I18n.t('evaluations.update.success')
+        flash.now[:notice] = t('evaluations.update.success')
       else
-        flash.now[:alert] = I18n.t('evaluations.update.failure')
+        flash.now[:alert] = t('evaluations.update.failure')
       end
       turbo_replace
     end
 
     def destroy
       @evaluation.destroy!
-      flash.now[:notice] = I18n.t('evaluations.destroy')
+      flash.now[:notice] = t('evaluations.destroy')
       turbo_replace
     end
 

@@ -11,25 +11,25 @@ module Buildings
       @expert = Expert.new(expert_params)
       @expert.building = @building
       if @expert.save
-        flash.now[:notice] = I18n.t('experts.create.success')
+        flash.now[:notice] = t('experts.create.success')
       else
-        flash.now[:alert] = I18n.t('experts.create.failure')
+        flash.now[:alert] = t('experts.create.failure')
       end
       turbo_replace
     end
 
     def update
       if @expert.update(expert_params)
-        flash.now[:notice] = I18n.t('experts.update.success')
+        flash.now[:notice] = t('experts.update.success')
       else
-        flash.now[:alert] = I18n.t('experts.update.failure')
+        flash.now[:alert] = t('experts.update.failure')
       end
       turbo_replace
     end
 
     def destroy
       @expert.destroy!
-      flash.now[:notice] = I18n.t('experts.destroy')
+      flash.now[:notice] = t('experts.destroy')
       turbo_replace
     end
 

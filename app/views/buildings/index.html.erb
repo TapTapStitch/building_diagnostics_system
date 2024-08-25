@@ -9,9 +9,20 @@
       <div class="border border-gray-300 rounded-lg mb-4 p-4">
         <%= render building %>
         <p>
-          <%= link_to 'Show this building', building, class: 'ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium border border-gray-300' %>
+          <%= link_to 'Show this building', building, class: 'mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium border border-gray-300' %>
+          <%= link_to 'Delete', building, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this building?' }, class: 'mt-2 rounded-lg py-3 px-5 bg-red-500 text-white font-medium' %>
         </p>
       </div>
     <% end %>
   </div>
+
+  <%= form_with url: import_xml_buildings_path, local: true, class: 'mt-4' do |form| %>
+    <div class="mb-4">
+      <%= form.label :file, "Import from XML", class: "block text-gray-700" %>
+      <%= form.file_field :file, accept: ".xml", class: "border border-gray-300 rounded p-2 w-full" %>
+    </div>
+    <div>
+      <%= form.submit "Import", class: "bg-green-500 text-white rounded px-4 py-2" %>
+    </div>
+  <% end %>
 </div>

@@ -21,7 +21,7 @@ class BuildingsController < ApplicationController
   def create
     @building = Building.new(building_params)
     if @building.save
-      redirect_to building_url(@building), notice: I18n.t('buildings.create')
+      redirect_to building_url(@building), notice: t('buildings.create')
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class BuildingsController < ApplicationController
 
   def update
     if @building.update(building_params)
-      redirect_to building_url(@building), notice: I18n.t('buildings.update')
+      redirect_to building_url(@building), notice: t('buildings.update')
     else
       render :edit, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class BuildingsController < ApplicationController
   def destroy
     Building.includes(defects: :evaluations, experts: :evaluations).find(params[:id]).destroy!
 
-    redirect_to buildings_url, notice: I18n.t('buildings.destroy')
+    redirect_to buildings_url, notice: t('buildings.destroy')
   end
 
   private
