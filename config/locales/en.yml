@@ -7,7 +7,7 @@ en:
       import:
         success: Building data imported successfully.
         failure: Building data was not imported due to some error.
-        no_file: Uploaded file is not a valid XML file.
+        no_file: Uploaded file is empty or not a valid.
   evaluations:
     create:
       success: Evaluation was successfully created.
