@@ -46,7 +46,7 @@ module Buildings
     def turbo_replace
       @defects = @building.defects.order(:created_at)
       @experts = @building.experts.order(:created_at)
-      @evaluations = Evaluation.where(defect: @defects, expert: @experts)
+      @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
       render 'buildings/experts/turbo_replace'
     end
 

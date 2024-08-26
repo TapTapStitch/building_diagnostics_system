@@ -25,7 +25,7 @@
           <% @defects.each do |defect| %>
             <td class="border border-gray-300 p-4 text-center">
               <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-                <%= @evaluations.find { |item| item.defect == defect && item.expert == expert }&.rating || '-' %>
+                <%= @evaluations[[defect.id, expert.id]]&.rating || '-' %>
               <% end %>
             </td>
           <% end %>
