@@ -4,11 +4,11 @@
     <%= form_with model: Evaluation.new, url: building_evaluations_path(@building), local: true, class: 'mb-8' do |form| %>
       <div class="mb-4">
         <%= form.label :defect_id, 'Defect', class: 'block text-gray-700' %>
-        <%= form.collection_select :defect_id, @building.defects, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
+        <%= form.collection_select :defect_id, @defects, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
       </div>
       <div class="mb-4">
         <%= form.label :expert_id, 'Expert', class: 'block text-gray-700' %>
-        <%= form.collection_select :expert_id, @building.experts, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
+        <%= form.collection_select :expert_id, @experts, :id, :name, {}, class: 'border border-gray-300 rounded p-2 w-full' %>
       </div>
       <div class="mb-4">
         <%= form.label :rating, class: 'block text-gray-700' %>

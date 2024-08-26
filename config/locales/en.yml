@@ -22,7 +22,7 @@ en:
       failure: Expert was not created.
     update:
       success: Expert was successfully updated.
-      failure: Expert was not updated.
+      failure: Expert should have name.
     destroy: Expert was successfully destroyed.
   defects:
     create:
@@ -30,5 +30,5 @@ en:
       failure: Defect was not created.
     update:
       success: Defect was successfully updated.
-      failure: Defect was not updated.
+      failure: Defect should have name.
     destroy: Defect was successfully destroyed.
