@@ -21,9 +21,7 @@
       <%= link_to 'Create Expert', building_experts_path(@building), data: { turbo_method: :post }, class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
       <%= link_to 'Create Defect', building_defects_path(@building), data: { turbo_method: :post }, class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
     </div>
-    <div class="overflow-x-auto">
-      <%= render 'buildings/table' %>
-    </div>
+    <%= render 'buildings/table' %>
   </div>
   <%= render 'buildings/evaluations/evaluations_form' %>
 </div>

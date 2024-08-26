@@ -1,5 +1,6 @@
 <%= turbo_frame_tag :table do %>
   <% if @experts.present? || @defects.present? %>
+    <div class="overflow-x-auto">
     <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
       <thead class="bg-gray-100">
       <tr>
@@ -33,5 +34,6 @@
       <% end %>
       </tbody>
     </table>
+    </div>
   <% end %>
 <% end %>
