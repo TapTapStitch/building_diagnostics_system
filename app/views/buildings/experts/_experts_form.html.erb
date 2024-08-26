@@ -2,7 +2,7 @@
 <%= form_with model: [@building, Expert.new], local: true, class: 'mb-8' do |form| %>
   <div class="mb-4">
     <%= form.label :name, class: 'block text-gray-700' %>
-    <%= form.text_field :name, class: 'border border-gray-300 rounded p-2 w-full' %>
+    <%= form.text_field :name, value: "Expert", class: 'border border-gray-300 rounded p-2 w-full' %>
   </div>
   <div>
     <%= form.submit 'Add Expert', class: 'bg-green-500 text-white rounded px-4 py-2' %>
