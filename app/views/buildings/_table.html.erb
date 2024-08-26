@@ -3,9 +3,9 @@
     <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
       <thead class="bg-gray-100">
       <tr>
-        <th class="border border-gray-300 p-4 text-left font-semibold"></th>
+        <th class="border border-gray-300 p-4"></th>
         <% @defects.each do |defect| %>
-          <th class="border border-gray-300 p-4 text-left font-semibold">
+          <th class="border border-gray-300 p-4 text-center font-semibold">
             <%= turbo_frame_tag "defect_#{defect.id}" do %>
               <%= defect.name %>
             <% end %>
@@ -17,7 +17,7 @@
       <% @experts.each do |expert| %>
         <%= turbo_frame_tag dom_id(expert) do %>
           <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
-            <td class="border border-gray-300 p-4">
+            <td class="border border-gray-300 p-4 text-center font-semibold">
               <%= turbo_frame_tag "expert_#{expert.id}" do %>
                 <%= expert.name %>
               <% end %>
