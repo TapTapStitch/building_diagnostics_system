@@ -1,38 +1,38 @@
 <%= turbo_frame_tag :table do %>
-  <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-    <thead class="bg-gray-100">
-    <tr>
-      <th class="border border-gray-300 p-4 text-left font-semibold">Expert</th>
-      <% @building.defects.each do |defect| %>
-        <th class="border border-gray-300 p-4 text-left font-semibold">
-          <%= turbo_frame_tag dom_id(defect) do %>
-            <%= defect.name %>
-          <% end %>
-        </th>
-      <% end %>
-    </tr>
-    </thead>
-    <tbody>
-    <% @building.experts.each_with_index do |expert, index| %>
-      <%= turbo_frame_tag dom_id(expert) do %>
-        <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %>">
-          <td class="border border-gray-300 p-4">
-            <%= turbo_frame_tag dom_id(expert) do %>
-              <%= expert.name %>
+  <% if @experts.present? || @defects.present? %>
+    <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
+      <thead class="bg-gray-100">
+      <tr>
+        <th class="border border-gray-300 p-4 text-left font-semibold"></th>
+        <% @defects.each do |defect| %>
+          <th class="border border-gray-300 p-4 text-left font-semibold">
+            <%= turbo_frame_tag dom_id(defect) do %>
+              <%= defect.name %>
             <% end %>
-          </td>
-          <% @building.defects.each do |defect| %>
-            <td class="border border-gray-300 p-4 text-center">
-              <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-                <% evaluation = defect.evaluations.find_by(expert: expert) %>
-                <%= evaluation ? evaluation.rating : "-" %>
+          </th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @experts.each do |expert| %>
+        <%= turbo_frame_tag dom_id(expert) do %>
+          <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
+            <td class="border border-gray-300 p-4">
+              <%= turbo_frame_tag dom_id(expert) do %>
+                <%= expert.name %>
               <% end %>
             </td>
-          <% end %>
-        </tr>
+            <% @defects.each do |defect| %>
+              <td class="border border-gray-300 p-4 text-center">
+                <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
+                  <%= @evaluations[[defect.id, expert.id]]&.rating || "-" %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  <% end %>
 <% end %>
-

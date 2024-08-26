@@ -14,14 +14,16 @@
     </div>
   </div>
 
-  <div class="mt-8 overflow-x-auto">
+  <div class="mt-8">
     <h2 class="text-2xl font-bold mb-4">Defects and Evaluations</h2>
 
     <div class="flex justify-between mb-4">
       <%= link_to "Create Expert", building_experts_path(@building), data: { turbo_method: :post }, class: "bg-blue-500 text-white px-4 py-2 rounded" %>
       <%= link_to "Create Defect", building_defects_path(@building), data: { turbo_method: :post }, class: "bg-blue-500 text-white px-4 py-2 rounded" %>
     </div>
-    <%= render 'buildings/table' %>
+    <div class="overflow-x-auto">
+      <%= render 'buildings/table' %>
+    </div>
   </div>
   <%= render 'buildings/evaluations/evaluations_form' %>
 </div>
