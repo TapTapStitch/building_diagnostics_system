@@ -8,7 +8,7 @@ class BuildingsController < ApplicationController
   end
 
   def show
-    @defects = @building.defects.includes(evaluations: :expert)
+    @defects = @building.defects
     @experts = @building.experts
   end
 

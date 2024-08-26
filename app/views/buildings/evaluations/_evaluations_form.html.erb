@@ -11,7 +11,7 @@
     </div>
     <div class="mb-4">
       <%= form.label :rating, class: 'block text-gray-700' %>
-      <%= form.number_field :rating, step: 0.1, min: 0, max: 1, class: 'border border-gray-300 rounded p-2 w-full' %>
+      <%= form.number_field :rating, step: 0.1, min: 0, max: 1, value: 0, class: 'border border-gray-300 rounded p-2 w-full' %>
     </div>
     <div>
       <%= form.submit 'Add Evaluation', class: 'bg-green-500 text-white rounded px-4 py-2' %>
