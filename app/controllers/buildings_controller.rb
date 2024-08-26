@@ -10,7 +10,7 @@ class BuildingsController < ApplicationController
   def show
     @defects = @building.defects.order(:created_at)
     @experts = @building.experts.order(:created_at)
-    @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
+    @evaluations = Evaluation.where(defect: @defects, expert: @experts)
   end
 
   def new
