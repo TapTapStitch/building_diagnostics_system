@@ -6,7 +6,7 @@
         <th class="border border-gray-300 p-4 text-left font-semibold"></th>
         <% @defects.each do |defect| %>
           <th class="border border-gray-300 p-4 text-left font-semibold">
-            <%= turbo_frame_tag dom_id(defect) do %>
+            <%= turbo_frame_tag "defect_#{defect.id}" do %>
               <%= defect.name %>
             <% end %>
           </th>
@@ -18,14 +18,14 @@
         <%= turbo_frame_tag dom_id(expert) do %>
           <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
             <td class="border border-gray-300 p-4">
-              <%= turbo_frame_tag dom_id(expert) do %>
+              <%= turbo_frame_tag "expert_#{expert.id}" do %>
                 <%= expert.name %>
               <% end %>
             </td>
             <% @defects.each do |defect| %>
               <td class="border border-gray-300 p-4 text-center">
                 <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-                  <%= @evaluations[[defect.id, expert.id]]&.rating || "-" %>
+                  <%= @evaluations[[defect.id, expert.id]]&.rating || '-' %>
                 <% end %>
               </td>
             <% end %>
