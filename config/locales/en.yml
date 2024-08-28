@@ -11,10 +11,10 @@ en:
   evaluations:
     create:
       success: Evaluation was successfully created.
-      failure: Evaluation was not created.
+      failure: Evaluation should have rating.
     update:
       success: Evaluation was successfully updated.
-      failure: Evaluation was not updated.
+      failure: Evaluation should have rating.
     destroy: Evaluation was successfully destroyed.
   experts:
     create:

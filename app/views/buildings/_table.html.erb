@@ -1,39 +1,50 @@
 <%= turbo_frame_tag :table do %>
   <% if @experts.present? || @defects.present? %>
     <div class="overflow-x-auto">
-    <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-      <thead class="bg-gray-100">
-      <tr>
-        <th class="border border-gray-300 p-4"></th>
-        <% @defects.each do |defect| %>
-          <th class="border border-gray-300 p-4 text-center font-semibold">
-            <%= turbo_frame_tag "defect_#{defect.id}" do %>
-              <%= link_to defect.name, edit_building_defect_path(@building, defect), data: { turbo_frame: "defect_#{defect.id}" } %>
-            <% end %>
-          </th>
-        <% end %>
-      </tr>
-      </thead>
-      <tbody>
-      <% @experts.each do |expert| %>
-
-        <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
-          <td class="border border-gray-300 p-4 text-center font-semibold">
-            <%= turbo_frame_tag "expert_#{expert.id}" do %>
-              <%= link_to expert.name, edit_building_expert_path(@building, expert), data: { turbo_frame: "expert_#{expert.id}" } %>
-            <% end %>
-          </td>
+      <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
+        <thead class="bg-gray-100">
+        <tr>
+          <th class="border border-gray-300 p-4"></th>
           <% @defects.each do |defect| %>
-            <td class="border border-gray-300 p-4 text-center">
-              <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-                <%= @evaluations[[defect.id, expert.id]]&.rating || '-' %>
+            <th class="border border-gray-300 p-4 text-center font-semibold">
+              <%= turbo_frame_tag "defect_#{defect.id}" do %>
+                <%= link_to defect.name, edit_building_defect_path(@building, defect), data: { turbo_frame: "defect_#{defect.id}" } %>
               <% end %>
-            </td>
+            </th>
           <% end %>
         </tr>
-      <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+        <% @experts.each do |expert| %>
+
+          <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
+            <td class="border border-gray-300 p-4 text-center font-semibold">
+              <%= turbo_frame_tag "expert_#{expert.id}" do %>
+                <%= link_to expert.name, edit_building_expert_path(@building, expert), data: { turbo_frame: "expert_#{expert.id}" } %>
+              <% end %>
+            </td>
+            <% @defects.each do |defect| %>
+              <td class="border border-gray-300 p-4 text-center">
+                <% evaluation = @evaluations[[defect.id, expert.id]] %>
+                <% if evaluation.present? %>
+                  <%= turbo_frame_tag "evaluation_#{evaluation.id}" do %>
+                    <%= link_to evaluation.rating,
+                                edit_building_evaluation_path(@building, evaluation),
+                                data: { turbo_frame: "defect_#{defect.id}_expert_#{expert.id}" } %>
+                  <% end %>
+                <% else %>
+                  <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
+                    <%= link_to '-',
+                                new_building_evaluation_path(@building, defect_id: defect.id, expert_id: expert.id),
+                                data: { turbo_frame: "defect_#{defect.id}_expert_#{expert.id}" } %>
+                  <% end %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
     </div>
   <% end %>
 <% end %>
