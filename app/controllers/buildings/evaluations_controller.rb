@@ -5,9 +5,7 @@ module Buildings
     before_action :set_building
     before_action :set_evaluation, only: %i[edit update destroy]
 
-    def new
-      @evaluation = Evaluation.new
-    end
+    def new; end
 
     def edit; end
 
