@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     scope module: :buildings do
       resources :defects, only: %i[edit create update destroy]
       resources :experts, only: %i[edit create update destroy]
-      resources :evaluations, only: %i[edit create update destroy]
+      resources :evaluations, only: %i[new edit create update destroy]
       member do
         get :export_xml, to: 'xml#export'
       end

@@ -14,52 +14,13 @@
     </div>
   </div>
 
-
-  <div class="mt-8 overflow-x-auto">
+  <div class="mt-8">
     <h2 class="text-2xl font-bold mb-4">Defects and Evaluations</h2>
 
-    <%= turbo_frame_tag :defects_evaluations_table do %>
-      <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-        <thead class="bg-gray-100">
-        <tr>
-          <th class="border border-gray-300 p-4 text-left font-semibold">Expert</th>
-          <% @defects.each do |defect| %>
-            <th class="border border-gray-300 p-4 text-left font-semibold">
-              <%= turbo_frame_tag dom_id(defect) do %>
-                <%= defect.name %>
-              <% end %>
-            </th>
-          <% end %>
-        </tr>
-        </thead>
-        <tbody>
-        <% @experts.each_with_index do |expert, index| %>
-          <%= turbo_frame_tag dom_id(expert) do %>
-            <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %>">
-              <td class="border border-gray-300 p-4">
-                <%= turbo_frame_tag dom_id(expert) do %>
-                  <%= expert.name %>
-                <% end %>
-              </td>
-              <% @defects.each do |defect| %>
-                <td class="border border-gray-300 p-4 text-center">
-                  <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-                    <% evaluation = defect.evaluations.find_by(expert: expert) %>
-                    <%= evaluation ? evaluation.rating : "-" %>
-                  <% end %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-        <% end %>
-        </tbody>
-      </table>
-    <% end %>
+    <div class="flex justify-between mb-4">
+      <%= link_to 'Create Expert', building_experts_path(@building), data: { turbo_method: :post }, class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
+      <%= link_to 'Create Defect', building_defects_path(@building), data: { turbo_method: :post }, class: 'bg-blue-500 text-white px-4 py-2 rounded' %>
+    </div>
+    <%= render 'buildings/table' %>
   </div>
-
-  <%= render 'buildings/defects/defects' %>
-
-  <%= render 'buildings/experts/experts' %>
-
-  <%= render 'buildings/evaluations/evaluations' %>
 </div>

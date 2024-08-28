@@ -8,7 +8,7 @@ module Buildings
     def edit; end
 
     def create
-      @defect = Defect.new(defect_params)
+      @defect = Defect.new(name: 'New defect')
       @defect.building = @building
       if @defect.save
         flash.now[:notice] = t('defects.create.success')
@@ -44,7 +44,9 @@ module Buildings
     end
 
     def turbo_replace
-      @defects = @building.defects.includes(evaluations: :expert)
+      @defects = @building.defects.order(:created_at)
+      @experts = @building.experts.order(:created_at)
+      @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
       render 'buildings/defects/turbo_replace'
     end
 

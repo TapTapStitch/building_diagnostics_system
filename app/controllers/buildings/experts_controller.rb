@@ -8,7 +8,7 @@ module Buildings
     def edit; end
 
     def create
-      @expert = Expert.new(expert_params)
+      @expert = Expert.new(name: 'New expert')
       @expert.building = @building
       if @expert.save
         flash.now[:notice] = t('experts.create.success')
@@ -44,8 +44,9 @@ module Buildings
     end
 
     def turbo_replace
-      @experts = @building.experts
-      @defects = @building.defects.includes(evaluations: :expert)
+      @defects = @building.defects.order(:created_at)
+      @experts = @building.experts.order(:created_at)
+      @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
       render 'buildings/experts/turbo_replace'
     end
 
