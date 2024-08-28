@@ -27,11 +27,11 @@ module Buildings
       Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
         xml.building(name: building.name, address: building.address) do
           xml.defects do
-            building.defects.each { |defect| xml.defect(name: defect.name, id: defect.id) }
+            building.defects.sort_by(&:created_at).each { |defect| xml.defect(name: defect.name, id: defect.id) }
           end
 
           xml.experts do
-            building.experts.each { |expert| xml.expert(name: expert.name, id: expert.id) }
+            building.experts.sort_by(&:created_at).each { |expert| xml.expert(name: expert.name, id: expert.id) }
           end
 
           xml.evaluations do
