@@ -2,6 +2,7 @@
 
 module Buildings
   class EvaluationsController < ApplicationController
+    include BuildingsTurbo
     before_action :set_building
     before_action :set_evaluation, only: %i[edit update destroy]
 
@@ -16,7 +17,7 @@ module Buildings
       else
         flash.now[:alert] = t('evaluations.create.failure')
       end
-      turbo_replace
+      turbo_replace('buildings/evaluations/turbo_replace')
     end
 
     def update
@@ -25,13 +26,13 @@ module Buildings
       else
         flash.now[:alert] = t('evaluations.update.failure')
       end
-      turbo_replace
+      turbo_replace('buildings/evaluations/turbo_replace')
     end
 
     def destroy
       @evaluation.destroy!
       flash.now[:notice] = t('evaluations.destroy')
-      turbo_replace
+      turbo_replace('buildings/evaluations/turbo_replace')
     end
 
     private
@@ -42,13 +43,6 @@ module Buildings
 
     def set_evaluation
       @evaluation = Evaluation.find(params[:id])
-    end
-
-    def turbo_replace
-      @defects = @building.defects.order(:created_at)
-      @experts = @building.experts.order(:created_at)
-      @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
-      render 'buildings/evaluations/turbo_replace'
     end
 
     def evaluation_params

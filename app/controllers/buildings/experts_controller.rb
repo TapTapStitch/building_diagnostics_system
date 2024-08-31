@@ -2,6 +2,7 @@
 
 module Buildings
   class ExpertsController < ApplicationController
+    include BuildingsTurbo
     before_action :set_building
     before_action :set_expert, only: %i[edit update destroy]
 
@@ -15,7 +16,7 @@ module Buildings
       else
         flash.now[:alert] = t('experts.create.failure')
       end
-      turbo_replace
+      turbo_replace('buildings/experts/turbo_replace')
     end
 
     def update
@@ -24,13 +25,13 @@ module Buildings
       else
         flash.now[:alert] = t('experts.update.failure')
       end
-      turbo_replace
+      turbo_replace('buildings/experts/turbo_replace')
     end
 
     def destroy
       @expert.destroy!
       flash.now[:notice] = t('experts.destroy')
-      turbo_replace
+      turbo_replace('buildings/experts/turbo_replace')
     end
 
     private
@@ -41,13 +42,6 @@ module Buildings
 
     def set_expert
       @expert = @building.experts.find(params[:id])
-    end
-
-    def turbo_replace
-      @defects = @building.defects.order(:created_at)
-      @experts = @building.experts.order(:created_at)
-      @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
-      render 'buildings/experts/turbo_replace'
     end
 
     def expert_params
