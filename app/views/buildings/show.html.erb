@@ -14,26 +14,5 @@
     </div>
   </div>
 
-  <div class="my-10">
-    <h2 class="text-2xl font-bold mb-4">Defects, Experts and Evaluations</h2>
-
-    <div class="flex justify-between mb-4 space-x-4">
-      <%= form_with model: [@building, Expert.new], local: true, class: 'w-1/2' do |form| %>
-        <div class="flex flex-col items-start">
-          <%= form.text_field :name, value: 'New expert', class: 'border rounded px-4 py-2 mb-2 w-full', placeholder: 'Enter expert name', required: true %>
-          <%= form.submit 'Create Expert', class: 'bg-blue-500 text-white px-4 py-2 rounded w-full' %>
-        </div>
-      <% end %>
-
-      <%= form_with model: [@building, Defect.new], local: true, class: 'w-1/2' do |form| %>
-        <div class="flex flex-col items-start">
-          <%= form.text_field :name, value: 'New defect', class: 'border rounded px-4 py-2 mb-2 w-full', placeholder: 'Enter defect name', required: true %>
-          <%= form.submit 'Create Defect', class: 'bg-blue-500 text-white px-4 py-2 rounded w-full' %>
-        </div>
-      <% end %>
-    </div>
-    <div class="overflow-x-auto">
-      <%= render 'buildings/table' %>
-    </div>
-  </div>
+  <%= render 'buildings/table' %>
 </div>
