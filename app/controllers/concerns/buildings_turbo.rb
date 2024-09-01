@@ -41,12 +41,10 @@ module BuildingsTurbo
     total_competence, count = 0, 0
 
     @defects.each do |defect|
-      avg_rating = @average_ratings[defect.id]
-      next if avg_rating == '-'
-
       evaluation = @evaluations[[defect.id, expert.id]]
       next unless evaluation
 
+      avg_rating = @average_ratings[defect.id]
       total_competence += calculate_competence(evaluation.rating, avg_rating)
       count += 1
     end
