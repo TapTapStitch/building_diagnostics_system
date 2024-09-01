@@ -23,7 +23,6 @@
       </thead>
       <tbody>
       <% @experts.each do |expert| %>
-
         <tr>
           <td class="border border-gray-300 p-4 text-center font-semibold">
             <%= turbo_frame_tag "expert_#{expert.id}" do %>
