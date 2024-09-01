@@ -33,4 +33,5 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rake', require: false
   gem 'web-console', require: false
+  gem 'ffaker', require: false
 end
