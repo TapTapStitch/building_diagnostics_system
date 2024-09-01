@@ -5,7 +5,7 @@ class BuildingsController < ApplicationController
   before_action :set_building, only: %i[show edit update]
 
   def index
-    @buildings = Building.all
+    @buildings = Building.order(created_at: :desc)
   end
 
   def show

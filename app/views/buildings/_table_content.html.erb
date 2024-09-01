@@ -1,9 +1,9 @@
 <%= turbo_frame_tag :table do %>
   <% if @experts.present? || @defects.present? %>
     <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-      <thead class="bg-gray-100">
+      <thead>
       <tr>
-        <th class="border border-gray-300 p-4">
+        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">
           <p>
             Defects →
           </p>
@@ -18,12 +18,13 @@
             <% end %>
           </th>
         <% end %>
+        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Competence ↓</th>
       </tr>
       </thead>
       <tbody>
       <% @experts.each do |expert| %>
 
-        <tr class="<%= cycle('bg-white', 'bg-gray-100') %>">
+        <tr>
           <td class="border border-gray-300 p-4 text-center font-semibold">
             <%= turbo_frame_tag "expert_#{expert.id}" do %>
               <%= link_to expert.name, edit_building_expert_path(@building, expert), data: { turbo_frame: "expert_#{expert.id}" } %>
@@ -47,16 +48,18 @@
               <% end %>
             </td>
           <% end %>
+          <% competence = @expert_competencies[expert.id] %>
+          <td class="border border-gray-300 p-4 text-center <%= competence_class(@expert_competencies[expert.id]) %>">
+            <%= competence.is_a?(String) ? competence : "#{competence}%" %>
+          </td>
         </tr>
       <% end %>
-      <tr class="bg-gray-200">
-        <td class="border border-gray-300 p-4 text-center font-semibold">Average →</td>
-        <% @defects.each do |defect| %>
-          <td class="border border-gray-300 p-4 text-center font-semibold">
-            <%= @average_ratings[defect.id] %>
-          </td>
-        <% end %>
-      </tr>
+      <td class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Average →</td>
+      <% @defects.each do |defect| %>
+        <td class="border border-gray-300 p-4 text-center font-semibold">
+          <%= @average_ratings[defect.id] %>
+        </td>
+      <% end %>
       </tbody>
     </table>
   <% end %>

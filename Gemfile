@@ -26,6 +26,7 @@ group :development do
   gem 'bundler-audit', require: false
   gem 'bundler-leak', require: false
   gem 'erb_lint', require: false
+  gem 'ffaker', require: false
   gem 'pry-rails'
   gem 'rubocop', require: false
   gem 'rubocop-md', require: false
@@ -33,5 +34,4 @@ group :development do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rake', require: false
   gem 'web-console', require: false
-  gem 'ffaker', require: false
 end
