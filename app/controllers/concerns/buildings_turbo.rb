@@ -33,34 +33,29 @@ module BuildingsTurbo
 
   def set_expert_competencies
     @expert_competencies = @experts.each_with_object({}) do |expert, hash|
-      hash[expert.id] = calculate_expert_competence(expert)
+      hash[expert.id] = calculate_competence_for(expert)
     end
   end
 
-  def calculate_expert_competence(expert)
-    total_competence = 0.0
-    count = 0
+  def calculate_competence_for(expert)
+    total_competence, count = 0, 0
 
     @defects.each do |defect|
+      avg_rating = @average_ratings[defect.id]
+      next if avg_rating == '-'
+
       evaluation = @evaluations[[defect.id, expert.id]]
       next unless evaluation
 
-      competence = compute_competence(defect, evaluation)
-      total_competence += competence
+      total_competence += calculate_competence(evaluation.rating, avg_rating)
       count += 1
     end
 
     count.positive? ? (total_competence / count).round(2) : '-'
   end
 
-  def compute_competence(defect, evaluation)
-    average_rating = @average_ratings[defect.id].to_f
-    rating = evaluation.rating.to_f
-
-    if average_rating.zero?
-      rating.zero? ? 100.0 : 0.0
-    else
-      (100.0 - ((average_rating - rating).abs / average_rating * 100.0)).round(2)
-    end
+  def calculate_competence(evaluation_rating, avg_rating)
+    deviation = (evaluation_rating - avg_rating).abs
+    (1 - deviation) * 100
   end
 end
