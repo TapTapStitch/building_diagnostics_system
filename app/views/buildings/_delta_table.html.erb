@@ -1,0 +1,33 @@
+<%= turbo_frame_tag :delta_table do %>
+  <% if @experts.present? && @defects.present? && !@deltas_calculation_error %>
+    <h2 class="text-2xl font-bold mb-4">Delta Table of Evaluations (evaluation - avg)</h2>
+    <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
+      <tr>
+        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">
+          <p>
+            Defects →
+          </p>
+          <p>
+            Experts ↓
+          </p>
+        </th>
+        <% @defects.each do |defect| %>
+          <th class="border border-gray-300 p-4 text-center font-semibold"><%= defect.name %></th>
+        <% end %>
+      </tr>
+
+      <% @experts.each do |expert| %>
+        <tr>
+          <td class="border border-gray-300 p-4 text-center font-semibold"><%= expert.name %></td>
+          <% @defects.each do |defect| %>
+            <td class="border border-gray-300 p-4 text-center">
+              <%= @deltas[[defect.id, expert.id]] %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <p class="text-red-500 font-bold">There was an error calculating the deltas. Please make sure you entered all evaluations.</p>
+  <% end %>
+<% end %>

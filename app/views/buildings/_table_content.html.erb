@@ -17,7 +17,6 @@
             <% end %>
           </th>
         <% end %>
-        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Competence ↓</th>
       </tr>
 
       <% @experts.each do |expert| %>
@@ -45,10 +44,6 @@
               <% end %>
             </td>
           <% end %>
-          <% competence = @expert_competencies[expert.id] %>
-          <td class="border border-gray-300 p-4 text-center <%= competence_class(@expert_competencies[expert.id]) %>">
-            <%= competence.is_a?(String) ? competence : "#{competence}%" %>
-          </td>
         </tr>
       <% end %>
       <tr>

@@ -8,7 +8,7 @@ module BuildingsTurbo
       set_defects_and_experts
       set_evaluations
       set_average_ratings
-      set_expert_competencies
+      set_deltas
       render path_to_render if path_to_render
     end
   end
@@ -31,29 +31,17 @@ module BuildingsTurbo
     end
   end
 
-  def set_expert_competencies
-    @expert_competencies = @experts.each_with_object({}) do |expert, hash|
-      hash[expert.id] = calculate_competence_for(expert)
-    end
-  end
-
-  def calculate_competence_for(expert)
-    total_competence, count = 0, 0
+  def set_deltas
+    @deltas = {}
 
     @defects.each do |defect|
-      evaluation = @evaluations[[defect.id, expert.id]]
-      next unless evaluation
+      @experts.each do |expert|
+        return @deltas_calculation_error = true unless @evaluations.key?([defect.id, expert.id])
 
-      avg_rating = @average_ratings[defect.id]
-      total_competence += calculate_competence(evaluation.rating, avg_rating)
-      count += 1
+        evaluation = @evaluations[[defect.id, expert.id]]
+        delta = (evaluation.rating - @average_ratings[defect.id]).abs.round(2)
+        @deltas[[defect.id, expert.id]] = delta if evaluation
+      end
     end
-
-    count.positive? ? (total_competence / count).round(2) : '-'
-  end
-
-  def calculate_competence(evaluation_rating, avg_rating)
-    deviation = (evaluation_rating - avg_rating).abs
-    (1 - deviation) * 100
   end
 end
