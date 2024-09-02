@@ -37,6 +37,8 @@ module BuildingsTurbo
   end
 
   def evaluations_complete?
+    return false unless @defects.any? && @experts.any?
+
     @defects.all? do |defect|
       @experts.all? do |expert|
         @evaluations.key?([defect.id, expert.id])
