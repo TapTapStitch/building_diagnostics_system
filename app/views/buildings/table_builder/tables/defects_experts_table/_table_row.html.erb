@@ -1,0 +1,10 @@
+<tr>
+  <td class="border border-gray-300 p-4 text-center font-semibold">
+    <%= turbo_frame_tag "expert_#{expert.id}" do %>
+      <%= link_to expert.name, edit_building_expert_path(@building, expert), data: { turbo_frame: "expert_#{expert.id}" } %>
+    <% end %>
+  </td>
+  <% @defects.each do |defect| %>
+    <%= render 'buildings/table_builder/tables/defects_experts_table/evaluation_cell', defect: defect, expert: expert %>
+  <% end %>
+</tr>

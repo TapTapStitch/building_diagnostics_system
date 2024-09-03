@@ -1,0 +1,12 @@
+<td class="border border-gray-300 p-4 text-center">
+  <% evaluation = @evaluations[[defect.id, expert.id]] %>
+  <% if evaluation.present? %>
+    <%= turbo_frame_tag "evaluation_#{evaluation.id}" do %>
+      <%= link_to evaluation.rating, edit_building_evaluation_path(@building, evaluation), data: { turbo_frame: "defect_#{defect.id}_expert_#{expert.id}" } %>
+    <% end %>
+  <% else %>
+    <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
+      <%= link_to '-', new_building_evaluation_path(@building, defect_id: defect.id, expert_id: expert.id), data: { turbo_frame: "defect_#{defect.id}_expert_#{expert.id}" } %>
+    <% end %>
+  <% end %>
+</td>

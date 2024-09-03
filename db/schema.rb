@@ -33,7 +33,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_091928) do
   create_table "evaluations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "defect_id", null: false
     t.uuid "expert_id", null: false
-    t.decimal "rating", precision: 2, scale: 1, null: false
+    t.decimal "rating", precision: 3, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["defect_id", "expert_id"], name: "index_evaluations_on_defect_id_and_expert_id", unique: true

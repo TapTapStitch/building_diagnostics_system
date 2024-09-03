@@ -1,0 +1,13 @@
+<tr>
+  <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">
+    <p>Defects →</p>
+    <p>Experts ↓</p>
+  </th>
+  <% @defects.each do |defect| %>
+    <th class="border border-gray-300 p-4 text-center font-semibold">
+      <%= turbo_frame_tag "defect_#{defect.id}" do %>
+        <%= link_to defect.name, edit_building_defect_path(@building, defect), data: { turbo_frame: "defect_#{defect.id}" } %>
+      <% end %>
+    </th>
+  <% end %>
+</tr>
