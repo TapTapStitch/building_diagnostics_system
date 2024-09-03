@@ -1,0 +1,18 @@
+<%= turbo_frame_tag :defects_experts_table do %>
+  <% if @experts.present? || @defects.present? %>
+    <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
+      <%= render 'buildings/table_builder/tables/defects_experts_table/table_header' %>
+      <% @experts.each do |expert| %>
+        <%= render 'buildings/table_builder/tables/defects_experts_table/table_row', expert: expert %>
+      <% end %>
+      <tr>
+        <td class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Average →</td>
+        <% @defects.each do |defect| %>
+          <td class="border border-gray-300 p-4 text-center font-semibold bg-blue-100">
+            <%= @average_ratings[defect.id] %>
+          </td>
+        <% end %>
+      </tr>
+    </table>
+  <% end %>
+<% end %>

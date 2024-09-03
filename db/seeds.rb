@@ -26,7 +26,7 @@ if Rails.env.development?
         Evaluation.create!(
           defect: defect,
           expert: expert,
-          rating: (rand(0..10) / 10.0).round(1)
+          rating: rand(0.0..1.0).round(2)
         )
       end
     end
