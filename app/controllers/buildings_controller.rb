@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BuildingsController < ApplicationController
-  include BuildingsTurbo
+  include BuildingProcessor
   before_action :set_building, only: %i[show edit update]
 
   def index
@@ -9,7 +9,7 @@ class BuildingsController < ApplicationController
   end
 
   def show
-    turbo_replace
+    processor_run
   end
 
   def new
@@ -42,10 +42,6 @@ class BuildingsController < ApplicationController
   end
 
   private
-
-  def set_building
-    @building = Building.find(params[:id])
-  end
 
   def building_params
     params.require(:building).permit(:name, :address)

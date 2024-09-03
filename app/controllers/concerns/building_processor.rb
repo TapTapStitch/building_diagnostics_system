@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
-module BuildingsTurbo
+module BuildingProcessor
   extend ActiveSupport::Concern
 
   included do
-    def turbo_replace(path_to_render = nil)
+    def processor_run(path_to_render = nil)
       setup_building_data
       perform_evaluation_calculations if evaluations_complete?
       render path_to_render if path_to_render
+    end
+
+    def set_building
+      @building = Building.find(params[:building_id] || params[:id])
     end
   end
 

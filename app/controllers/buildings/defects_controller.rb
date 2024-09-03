@@ -2,7 +2,7 @@
 
 module Buildings
   class DefectsController < ApplicationController
-    include BuildingsTurbo
+    include BuildingProcessor
     before_action :set_building
     before_action :set_defect, only: %i[edit update destroy]
 
@@ -16,7 +16,7 @@ module Buildings
       else
         flash.now[:alert] = t('defects.create.failure')
       end
-      turbo_replace('buildings/turbo_replace')
+      processor_run('buildings/turbo_replace')
     end
 
     def update
@@ -25,20 +25,16 @@ module Buildings
       else
         flash.now[:alert] = t('defects.update.failure')
       end
-      turbo_replace('buildings/turbo_replace')
+      processor_run('buildings/turbo_replace')
     end
 
     def destroy
       @defect.destroy!
       flash.now[:notice] = t('defects.destroy')
-      turbo_replace('buildings/turbo_replace')
+      processor_run('buildings/turbo_replace')
     end
 
     private
-
-    def set_building
-      @building = Building.find(params[:building_id])
-    end
 
     def set_defect
       @defect = @building.defects.find(params[:id])
