@@ -49,7 +49,7 @@
       <tr>
         <td class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Average →</td>
         <% @defects.each do |defect| %>
-          <td class="border border-gray-300 p-4 text-center font-semibold">
+          <td class="border border-gray-300 p-4 text-center font-semibold bg-blue-100">
             <%= @average_ratings[defect.id] %>
           </td>
         <% end %>

@@ -17,6 +17,7 @@
             <th class="border border-gray-300 p-4 text-center font-semibold"><%= defect.name %></th>
           <% end %>
           <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Average Delta ↓</th>
+          <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Competency ↓</th>
         </tr>
 
         <% @experts.each do |expert| %>
@@ -27,14 +28,17 @@
                 <%= @deltas[[defect.id, expert.id]] %>
               </td>
             <% end %>
-            <td class="border border-gray-300 p-4 text-center">
+            <td class="border border-gray-300 p-4 text-center bg-yellow-200">
               <%= @average_deltas[expert.id] %>
+            </td>
+            <td class="border border-gray-300 p-4 text-center bg-green-200">
+              <%= @competency[expert.id] %>
             </td>
           </tr>
         <% end %>
       </table>
     <% else %>
-      <p class="text-red-500 font-bold">Cant calculate deltas. Please make sure you entered all evaluations.</p>
+      <p class="text-red-500 font-bold">Cant calculate. Please make sure you entered all evaluations.</p>
     <% end %>
   <% end %>
 <% end %>

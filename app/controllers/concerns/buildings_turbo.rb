@@ -11,6 +11,7 @@ module BuildingsTurbo
       if evaluations_complete?
         set_deltas
         set_average_deltas
+        set_competency
       else
         @deltas_calculation_error = true
       end
@@ -63,5 +64,12 @@ module BuildingsTurbo
       expert_deltas = @deltas.select { |(_, expert_id), _| expert_id == expert.id }.values
       @average_deltas[expert.id] = (expert_deltas.sum / expert_deltas.size).round(2)
     end
+  end
+
+  def set_competency
+    @competency = @average_deltas
+      .sort_by { |_, avg_delta| avg_delta }
+      .each_with_index
+      .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
   end
 end
