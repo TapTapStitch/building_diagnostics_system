@@ -17,7 +17,7 @@ module Buildings
       else
         flash.now[:alert] = t('evaluations.create.failure')
       end
-      turbo_replace('buildings/evaluations/turbo_replace')
+      turbo_replace('buildings/turbo_replace')
     end
 
     def update
@@ -26,13 +26,13 @@ module Buildings
       else
         flash.now[:alert] = t('evaluations.update.failure')
       end
-      turbo_replace('buildings/evaluations/turbo_replace')
+      turbo_replace('buildings/turbo_replace')
     end
 
     def destroy
       @evaluation.destroy!
       flash.now[:notice] = t('evaluations.destroy')
-      turbo_replace('buildings/evaluations/turbo_replace')
+      turbo_replace('buildings/turbo_replace')
     end
 
     private

@@ -16,7 +16,7 @@ module Buildings
       else
         flash.now[:alert] = t('defects.create.failure')
       end
-      turbo_replace('buildings/defects/turbo_replace')
+      turbo_replace('buildings/turbo_replace')
     end
 
     def update
@@ -25,13 +25,13 @@ module Buildings
       else
         flash.now[:alert] = t('defects.update.failure')
       end
-      turbo_replace('buildings/defects/turbo_replace')
+      turbo_replace('buildings/turbo_replace')
     end
 
     def destroy
       @defect.destroy!
       flash.now[:notice] = t('defects.destroy')
-      turbo_replace('buildings/defects/turbo_replace')
+      turbo_replace('buildings/turbo_replace')
     end
 
     private
