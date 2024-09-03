@@ -1,16 +1,12 @@
-<%= turbo_frame_tag :delta_table do %>
-  <% if @experts.present? && @defects.present? %>
-    <% if @deltas_calculation_error.blank? %>
-      <h2 class="text-2xl font-bold mb-4">Delta Table of Evaluations</h2>
-      <p class="mb-4">Formula: delta = evaluation - average</p>
-      <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-        <%= render 'buildings/table_builder/tables/delta_table/table_header' %>
-        <% @experts.each do |expert| %>
-          <%= render 'buildings/table_builder/tables/delta_table/table_row', expert: expert %>
-        <% end %>
-      </table>
-    <% else %>
-      <p class="text-red-500 font-bold">Can't calculate. Please make sure you entered all evaluations.</p>
+<% if @deltas_calculation_error.blank? %>
+  <h2 class="text-2xl font-bold mb-4">Delta Table of Evaluations</h2>
+  <p class="mb-4">Formula: delta = evaluation - average</p>
+  <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
+    <%= render 'buildings/table_builder/tables/delta_table/table_header' %>
+    <% @experts.each do |expert| %>
+      <%= render 'buildings/table_builder/tables/delta_table/table_row', expert: expert %>
     <% end %>
-  <% end %>
+  </table>
+<% else %>
+  <p class="text-red-500 font-bold">Can't calculate. Please make sure you entered all evaluations.</p>
 <% end %>

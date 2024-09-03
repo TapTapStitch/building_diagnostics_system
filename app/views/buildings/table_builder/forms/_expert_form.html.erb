@@ -1,6 +1,0 @@
-<%= form_with model: [@building, Expert.new], local: true, class: 'w-1/2' do |form| %>
-  <div class="flex flex-col items-start">
-    <%= form.text_field :name, value: 'New expert', class: 'border rounded px-4 py-2 mb-2 w-full', placeholder: 'Enter expert name', required: true %>
-    <%= form.submit 'Create Expert', class: 'bg-blue-500 text-white px-4 py-2 rounded w-full' %>
-  </div>
-<% end %>

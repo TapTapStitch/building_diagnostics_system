@@ -1,16 +1,12 @@
-<div class="my-10">
-  <h2 class="text-2xl font-bold mb-4">Defects, Experts and Evaluations</h2>
+<%= turbo_frame_tag :tables do %>
+  <% if @experts.present? && @defects.present? %>
+    <div class="overflow-auto">
+      <%= render 'buildings/table_builder/defects_experts_table' %>
+    </div>
 
-  <div class="flex justify-between mb-4 space-x-4">
-    <%= render 'buildings/table_builder/forms/expert_form' %>
-    <%= render 'buildings/table_builder/forms/defect_form' %>
-  </div>
+    <div class="overflow-auto mt-10">
+      <%= render 'buildings/table_builder/delta_table' %>
+    </div>
+  <% end %>
+<% end %>
 
-  <div class="overflow-auto">
-    <%= render 'buildings/table_builder/defects_experts_table' %>
-  </div>
-
-  <div class="overflow-auto mt-10">
-    <%= render 'buildings/table_builder/delta_table' %>
-  </div>
-</div>
