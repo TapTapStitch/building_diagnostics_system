@@ -5,21 +5,25 @@ module BuildingsTurbo
 
   included do
     def turbo_replace(path_to_render = nil)
-      set_defects_and_experts
-      set_evaluations
-      set_average_ratings
-      if evaluations_complete?
-        set_deltas
-        set_average_deltas
-        set_competency
-      else
-        @deltas_calculation_error = true
-      end
+      setup_building_data
+      perform_evaluation_calculations if evaluations_complete?
       render path_to_render if path_to_render
     end
   end
 
   private
+
+  def setup_building_data
+    set_defects_and_experts
+    set_evaluations
+    calculate_average_ratings
+  end
+
+  def perform_evaluation_calculations
+    calculate_deltas
+    calculate_average_deltas
+    determine_competency
+  end
 
   def set_defects_and_experts
     @defects = @building.defects.order(:created_at)
@@ -30,7 +34,7 @@ module BuildingsTurbo
     @evaluations = Evaluation.where(defect: @defects, expert: @experts).index_by { |e| [e.defect_id, e.expert_id] }
   end
 
-  def set_average_ratings
+  def calculate_average_ratings
     @average_ratings = @defects.each_with_object({}) do |defect, hash|
       ratings = @evaluations.select { |(defect_id, _), _| defect_id == defect.id }.values.map(&:rating)
       hash[defect.id] = ratings.any? ? (ratings.sum / ratings.size).round(2) : '-'
@@ -38,16 +42,16 @@ module BuildingsTurbo
   end
 
   def evaluations_complete?
-    return false unless @defects.any? && @experts.any?
-
-    @defects.all? do |defect|
+    complete = @defects.any? && @experts.any? && @defects.all? do |defect|
       @experts.all? do |expert|
         @evaluations.key?([defect.id, expert.id])
       end
     end
+    @evaluation_incomplete_error = true unless complete
+    complete
   end
 
-  def set_deltas
+  def calculate_deltas
     @deltas = {}
     @defects.each do |defect|
       @experts.each do |expert|
@@ -58,15 +62,15 @@ module BuildingsTurbo
     end
   end
 
-  def set_average_deltas
+  def calculate_average_deltas
     @average_deltas = {}
     @experts.each do |expert|
-      expert_deltas = @deltas.select { |(_, expert_id), _| expert_id == expert.id }.values
+      expert_deltas = @deltas.filter_map { |(_, expert_id), delta| delta if expert_id == expert.id }
       @average_deltas[expert.id] = (expert_deltas.sum / expert_deltas.size).round(2)
     end
   end
 
-  def set_competency
+  def determine_competency
     @competency = @average_deltas
       .sort_by { |_, avg_delta| avg_delta }
       .each_with_index
