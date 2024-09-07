@@ -10,7 +10,7 @@ class BuildingPresenter
   end
 
   def able_to_show_main_table?
-    @able_to_show_main_table ||= @experts.present? && @defects.present?
+    @able_to_show_main_table ||= @experts.exists? && @defects.exists?
   end
 
   def able_to_show_additional_tables?
@@ -49,7 +49,7 @@ class BuildingPresenter
   end
 
   def evaluations_complete?
-    @evaluations_complete ||= @defects.any? && @experts.any? && @defects.all? do |defect|
+    @evaluations_complete ||= @defects.exists? && @experts.exists? && @defects.all? do |defect|
       @experts.all? do |expert|
         @evaluations.key?([defect.id, expert.id])
       end
@@ -85,18 +85,30 @@ class BuildingPresenter
   def calculate_consistency
     @consistency = {}
     @defects.each do |defect|
-      ratings = @evaluations.values.select { |evaluation| evaluation.defect_id == defect.id }.map(&:rating)
-      min_rating, max_rating = ratings.minmax
+      calculate_consistency_for_defect(defect)
+    end
+  end
 
-      @experts.each do |expert|
-        evaluation = @evaluations[[defect.id, expert.id]]
-        consistency = if max_rating == min_rating
-                        1
-                      else
-                        1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
-                      end
-        @consistency[[defect.id, expert.id]] = consistency.round(0)
-      end
+  def calculate_consistency_for_defect(defect)
+    ratings = collect_ratings_for_defect(defect)
+    min_rating, max_rating = ratings.minmax
+
+    @experts.each do |expert|
+      evaluation = @evaluations[[defect.id, expert.id]]
+      consistency = calculate_individual_consistency(evaluation, min_rating, max_rating)
+      @consistency[[defect.id, expert.id]] = consistency.round(0)
+    end
+  end
+
+  def collect_ratings_for_defect(defect)
+    @evaluations.values.select { |evaluation| evaluation.defect_id == defect.id }.map(&:rating)
+  end
+
+  def calculate_individual_consistency(evaluation, min_rating, max_rating)
+    if max_rating == min_rating
+      1
+    else
+      1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
     end
   end
 end
