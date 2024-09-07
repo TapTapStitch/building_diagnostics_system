@@ -19,6 +19,9 @@ Metrics/BlockLength:
 Lint/MissingSuper:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: false
+
 # Style -----------------------------------------------------------------------
 
 Style/Documentation:
@@ -42,6 +45,12 @@ Rails/UnknownEnv:
 
 Layout/LineLength:
   Max: 200
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/MethodLength:
+  Max: 20
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented

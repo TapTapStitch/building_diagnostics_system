@@ -34,6 +34,13 @@ module Buildings
       set_presenter
     end
 
+    def generate_random
+      defects = @building.defects
+      experts = @building.experts
+      handle_generate_random(defects, experts)
+      set_presenter
+    end
+
     private
 
     def set_building
@@ -51,6 +58,44 @@ module Buildings
     def set_presenter
       @building_presenter = BuildingPresenter.new(@building)
       render 'buildings/turbo_replace'
+    end
+
+    def handle_generate_random(defects, experts)
+      if defects.exists? && experts.exists?
+        if evaluations_missing?(defects, experts)
+          generate_missing_evaluations(defects, experts)
+          flash.now[:notice] = t('evaluations.generate_random.success')
+        else
+          flash.now[:alert] = t('evaluations.generate_random.all_filled')
+        end
+      else
+        flash.now[:alert] = t('evaluations.generate_random.no_defects_or_experts')
+      end
+    end
+
+    def evaluations_missing?(defects, experts)
+      total_possible_evaluations = defects.count * experts.count
+      existing_evaluations = Evaluation.where(defect: defects, expert: experts).count
+      total_possible_evaluations > existing_evaluations
+    end
+
+    def generate_missing_evaluations(defects, experts)
+      existing_evaluations = Evaluation.where(defect: defects, expert: experts).pluck(:defect_id, :expert_id)
+      new_evaluations = build_new_evaluations(existing_evaluations, defects, experts)
+      new_evaluations.each { |evaluation| Evaluation.create!(evaluation) } if new_evaluations.any?
+    end
+
+    def build_new_evaluations(existing_evaluations, defects, experts)
+      defects.each_with_object([]) do |defect, new_evaluations|
+        experts.each do |expert|
+          next if existing_evaluations.include?([
+            defect.id, expert.id
+          ])
+
+          new_evaluations << { defect_id: defect.id, expert_id: expert.id,
+                               rating: rand(0.0..1.0).round(2) }
+        end
+      end
     end
   end
 end

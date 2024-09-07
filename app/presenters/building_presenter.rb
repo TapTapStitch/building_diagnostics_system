@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class BuildingPresenter
-  attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations, :squared_deviations, :sum_of_squared_deviations
+  attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations,
+              :squared_deviations, :sum_of_squared_deviations
 
   def initialize(building)
     @building = building
@@ -15,6 +16,10 @@ class BuildingPresenter
 
   def able_to_show_additional_tables?
     able_to_show_main_table? && evaluations_complete?
+  end
+
+  def show_notification?
+    able_to_show_main_table? == true && evaluations_complete? == false
   end
 
   private
@@ -125,7 +130,7 @@ class BuildingPresenter
   end
 
   def calculate_squared_deviations
-    @squared_deviations = @deviations.transform_values { |deviation| (deviation ** 2).round(2) }
+    @squared_deviations = @deviations.transform_values { |deviation| (deviation**2).round(2) }
     @sum_of_squared_deviations = @squared_deviations.values.sum.round(2)
   end
 end

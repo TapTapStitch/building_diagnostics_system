@@ -16,6 +16,10 @@ en:
       success: Evaluation was successfully updated.
       failure: Evaluation should have rating.
     destroy: Evaluation was successfully destroyed.
+    generate_random:
+      success: Random evaluations were successfully generated.
+      all_filled: All evaluations are already filled.
+      no_defects_or_experts: There are no defects or experts to generate evaluations.
   experts:
     create:
       success: Expert was successfully created.
