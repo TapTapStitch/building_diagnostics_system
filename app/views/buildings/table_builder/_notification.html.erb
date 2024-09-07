@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :notification do %>
-  <% unless @building_presenter.evaluations_complete? %>
+  <% unless @building_presenter.able_to_show_additional_tables? %>
     <p class="text-red-500 font-bold">Please make sure you entered all evaluations.</p>
   <% end %>
 <% end %>

@@ -10,15 +10,7 @@ class BuildingPresenter
   end
 
   def able_to_show_main_table?
-    @experts.present? && @defects.present?
-  end
-
-  def evaluations_complete?
-    @evaluations_complete ||= @defects.any? && @experts.any? && @defects.all? do |defect|
-      @experts.all? do |expert|
-        @evaluations.key?([defect.id, expert.id])
-      end
-    end
+    @able_to_show_main_table ||= @experts.present? && @defects.present?
   end
 
   def able_to_show_additional_tables?
@@ -53,6 +45,14 @@ class BuildingPresenter
     @average_ratings = @defects.each_with_object({}) do |defect, hash|
       ratings = @evaluations.select { |(defect_id, _), _| defect_id == defect.id }.values.map(&:rating)
       hash[defect.id] = ratings.any? ? (ratings.sum / ratings.size).round(2) : '-'
+    end
+  end
+
+  def evaluations_complete?
+    @evaluations_complete ||= @defects.any? && @experts.any? && @defects.all? do |defect|
+      @experts.all? do |expert|
+        @evaluations.key?([defect.id, expert.id])
+      end
     end
   end
 
