@@ -47,4 +47,8 @@
       </tr>
     </table>
   <% end %>
+
+  <% if @evaluation_incomplete_error.present? %>
+    <p class="text-red-500 font-bold pt-5">Please make sure you entered all evaluations.</p>
+  <% end %>
 <% end %>
