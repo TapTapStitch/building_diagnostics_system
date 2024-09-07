@@ -27,6 +27,7 @@ module BuildingProcessor
     calculate_deltas
     calculate_average_deltas
     determine_competency
+    calculate_consistency
   end
 
   def set_defects_and_experts
@@ -79,5 +80,23 @@ module BuildingProcessor
       .sort_by { |_, avg_delta| avg_delta }
       .each_with_index
       .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
+  end
+
+  def calculate_consistency
+    @consistency = {}
+    @defects.each do |defect|
+      ratings = @evaluations.values.select { |evaluation| evaluation.defect_id == defect.id }.map(&:rating)
+      min_rating, max_rating = ratings.minmax
+
+      @experts.each do |expert|
+        evaluation = @evaluations[[defect.id, expert.id]]
+        consistency = if max_rating == min_rating
+                        1
+                      else
+                        1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
+                      end
+        @consistency[[defect.id, expert.id]] = consistency.round(2)
+      end
+    end
   end
 end
