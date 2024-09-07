@@ -15,8 +15,7 @@ module Buildings
       else
         flash.now[:alert] = t('experts.create.failure')
       end
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     def update
@@ -25,15 +24,13 @@ module Buildings
       else
         flash.now[:alert] = t('experts.update.failure')
       end
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     def destroy
       @expert.destroy!
       flash.now[:notice] = t('experts.destroy')
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     private
@@ -48,6 +45,11 @@ module Buildings
 
     def expert_params
       params.require(:expert).permit(:name)
+    end
+
+    def set_presenter
+      @building_presenter = BuildingPresenter.new(@building)
+      render 'buildings/turbo_replace'
     end
   end
 end

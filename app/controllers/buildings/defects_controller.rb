@@ -15,8 +15,7 @@ module Buildings
       else
         flash.now[:alert] = t('defects.create.failure')
       end
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     def update
@@ -25,15 +24,13 @@ module Buildings
       else
         flash.now[:alert] = t('defects.update.failure')
       end
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     def destroy
       @defect.destroy!
       flash.now[:notice] = t('defects.destroy')
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     private
@@ -48,6 +45,11 @@ module Buildings
 
     def defect_params
       params.require(:defect).permit(:name)
+    end
+
+    def set_presenter
+      @building_presenter = BuildingPresenter.new(@building)
+      render 'buildings/turbo_replace'
     end
   end
 end

@@ -16,8 +16,7 @@ module Buildings
       else
         flash.now[:alert] = t('evaluations.create.failure')
       end
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     def update
@@ -26,15 +25,13 @@ module Buildings
       else
         flash.now[:alert] = t('evaluations.update.failure')
       end
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     def destroy
       @evaluation.destroy!
       flash.now[:notice] = t('evaluations.destroy')
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
+      set_presenter
     end
 
     private
@@ -49,6 +46,11 @@ module Buildings
 
     def evaluation_params
       params.require(:evaluation).permit(:defect_id, :expert_id, :rating)
+    end
+
+    def set_presenter
+      @building_presenter = BuildingPresenter.new(@building)
+      render 'buildings/turbo_replace'
     end
   end
 end
