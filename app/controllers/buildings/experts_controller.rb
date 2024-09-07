@@ -2,7 +2,6 @@
 
 module Buildings
   class ExpertsController < ApplicationController
-    include BuildingProcessor
     before_action :set_building
     before_action :set_expert, only: %i[edit update destroy]
 
@@ -16,7 +15,8 @@ module Buildings
       else
         flash.now[:alert] = t('experts.create.failure')
       end
-      processor_run('buildings/turbo_replace')
+      @building_presenter = BuildingPresenter.new(@building)
+      render 'buildings/turbo_replace'
     end
 
     def update
@@ -25,16 +25,22 @@ module Buildings
       else
         flash.now[:alert] = t('experts.update.failure')
       end
-      processor_run('buildings/turbo_replace')
+      @building_presenter = BuildingPresenter.new(@building)
+      render 'buildings/turbo_replace'
     end
 
     def destroy
       @expert.destroy!
       flash.now[:notice] = t('experts.destroy')
-      processor_run('buildings/turbo_replace')
+      @building_presenter = BuildingPresenter.new(@building)
+      render 'buildings/turbo_replace'
     end
 
     private
+
+    def set_building
+      @building = Building.find(params[:building_id])
+    end
 
     def set_expert
       @expert = @building.experts.find(params[:id])

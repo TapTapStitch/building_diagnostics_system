@@ -1,4 +1,5 @@
 <%= turbo_stream.replace :flash_turbo, partial: 'layouts/flash' %>
 <%= turbo_stream.replace :main_table, partial: 'buildings/table_builder/main_table' %>
+<%= turbo_stream.replace :notification, partial: 'buildings/table_builder/notification' %>
 <%= turbo_stream.replace :delta_table, partial: 'buildings/table_builder/delta_table' %>
 <%= turbo_stream.replace :consistency_table, partial: 'buildings/table_builder/consistency_table' %>

@@ -1,18 +1,28 @@
 # frozen_string_literal: true
 
-module BuildingProcessor
-  extend ActiveSupport::Concern
+class BuildingPresenter
+  attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency
 
-  included do
-    def processor_run(path_to_render = nil)
-      setup_building_data
-      perform_evaluation_calculations if evaluations_complete?
-      render path_to_render if path_to_render
-    end
+  def initialize(building)
+    @building = building
+    setup_building_data
+    perform_evaluation_calculations if evaluations_complete?
+  end
 
-    def set_building
-      @building = Building.find(params[:building_id] || params[:id])
+  def able_to_show_main_table?
+    @experts.present? && @defects.present?
+  end
+
+  def evaluations_complete?
+    @evaluations_complete ||= @defects.any? && @experts.any? && @defects.all? do |defect|
+      @experts.all? do |expert|
+        @evaluations.key?([defect.id, expert.id])
+      end
     end
+  end
+
+  def able_to_show_additional_tables?
+    able_to_show_main_table? && evaluations_complete?
   end
 
   private
@@ -46,16 +56,6 @@ module BuildingProcessor
     end
   end
 
-  def evaluations_complete?
-    complete = @defects.any? && @experts.any? && @defects.all? do |defect|
-      @experts.all? do |expert|
-        @evaluations.key?([defect.id, expert.id])
-      end
-    end
-    @evaluation_incomplete_error = true unless complete
-    complete
-  end
-
   def calculate_deltas
     @deltas = {}
     @defects.each do |defect|
@@ -77,9 +77,9 @@ module BuildingProcessor
 
   def determine_competency
     @competency = @average_deltas
-      .sort_by { |_, avg_delta| avg_delta }
-      .each_with_index
-      .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
+                    .sort_by { |_, avg_delta| avg_delta }
+                    .each_with_index
+                    .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
   end
 
   def calculate_consistency
@@ -95,7 +95,7 @@ module BuildingProcessor
                       else
                         1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
                       end
-        @consistency[[defect.id, expert.id]] = consistency.round(2)
+        @consistency[[defect.id, expert.id]] = consistency.round(0)
       end
     end
   end

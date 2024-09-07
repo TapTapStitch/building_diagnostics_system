@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :consistency_table do %>
-  <% if @experts.present? && @defects.present? && @evaluation_incomplete_error.blank? %>
+  <% if @building_presenter.able_to_show_additional_tables? %>
     <h2 class="text-2xl font-bold mb-4">Consistency Table of Experts</h2>
     <p class="mb-4">Formula: 1 + (rating - min) * (defects_count - 1) / (max - min)</p>
     <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
@@ -8,17 +8,17 @@
           <p>Experts →</p>
           <p>Defects ↓</p>
         </th>
-        <% @experts.each do |expert| %>
+        <% @building_presenter.experts.each do |expert| %>
           <th class="border border-gray-300 p-4 text-center font-semibold"><%= expert.name %></th>
         <% end %>
       </tr>
 
-      <% @defects.each do |defect| %>
+      <% @building_presenter.defects.each do |defect| %>
         <tr>
           <td class="border border-gray-300 p-4 text-center font-semibold"><%= defect.name %></td>
-          <% @experts.each do |expert| %>
+          <% @building_presenter.experts.each do |expert| %>
             <td class="border border-gray-300 p-4 text-center">
-              <%= @consistency[[defect.id, expert.id]] %>
+              <%= @building_presenter.consistency[[defect.id, expert.id]] %>
             </td>
           <% end %>
         </tr>
