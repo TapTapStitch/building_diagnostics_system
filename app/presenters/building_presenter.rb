@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BuildingPresenter
-  attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency
+  attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations, :squared_deviations, :sum_of_squared_deviations
 
   def initialize(building)
     @building = building
@@ -30,6 +30,10 @@ class BuildingPresenter
     calculate_average_deltas
     determine_competency
     calculate_consistency
+    calculate_consistency_sums
+    calculate_weights
+    calculate_deviations
+    calculate_squared_deviations
   end
 
   def set_defects_and_experts
@@ -77,38 +81,51 @@ class BuildingPresenter
 
   def determine_competency
     @competency = @average_deltas
-                    .sort_by { |_, avg_delta| avg_delta }
-                    .each_with_index
-                    .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
+      .sort_by { |_, avg_delta| avg_delta }
+      .each_with_index
+      .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
   end
 
   def calculate_consistency
     @consistency = {}
     @defects.each do |defect|
-      calculate_consistency_for_defect(defect)
+      ratings = @evaluations.values.select { |evaluation| evaluation.defect_id == defect.id }.map(&:rating)
+      min_rating, max_rating = ratings.minmax
+
+      @experts.each do |expert|
+        evaluation = @evaluations[[defect.id, expert.id]]
+        consistency = if max_rating == min_rating
+                        1
+                      else
+                        1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
+                      end
+        @consistency[[defect.id, expert.id]] = consistency.round(0)
+      end
     end
   end
 
-  def calculate_consistency_for_defect(defect)
-    ratings = collect_ratings_for_defect(defect)
-    min_rating, max_rating = ratings.minmax
-
-    @experts.each do |expert|
-      evaluation = @evaluations[[defect.id, expert.id]]
-      consistency = calculate_individual_consistency(evaluation, min_rating, max_rating)
-      @consistency[[defect.id, expert.id]] = consistency.round(0)
+  def calculate_consistency_sums
+    @consistency_sums = {}
+    @defects.each do |defect|
+      defect_consistency_sum = @consistency.select { |(defect_id, _), _| defect_id == defect.id }.values.sum
+      @consistency_sums[defect.id] = defect_consistency_sum
     end
+
+    total_sum = @consistency_sums.values.sum
+    @total_sum = total_sum
+    @average_sum = (total_sum / @consistency_sums.size.to_f).round(2)
   end
 
-  def collect_ratings_for_defect(defect)
-    @evaluations.values.select { |evaluation| evaluation.defect_id == defect.id }.map(&:rating)
+  def calculate_weights
+    @weights = @consistency_sums.transform_values { |sum| (sum / @total_sum.to_f).round(2) }
   end
 
-  def calculate_individual_consistency(evaluation, min_rating, max_rating)
-    if max_rating == min_rating
-      1
-    else
-      1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
-    end
+  def calculate_deviations
+    @deviations = @consistency_sums.transform_values { |sum| (sum - @average_sum).round(2) }
+  end
+
+  def calculate_squared_deviations
+    @squared_deviations = @deviations.transform_values { |deviation| (deviation ** 2).round(2) }
+    @sum_of_squared_deviations = @squared_deviations.values.sum.round(2)
   end
 end
