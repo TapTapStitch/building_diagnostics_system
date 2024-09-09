@@ -93,11 +93,12 @@ class BuildingPresenter
 
   def calculate_consistency
     @consistency = {}
-    @defects.each do |defect|
-      ratings = @evaluations.values.select { |evaluation| evaluation.defect_id == defect.id }.map(&:rating)
-      min_rating, max_rating = ratings.minmax
 
-      @experts.each do |expert|
+    @experts.each do |expert|
+      expert_ratings = @evaluations.select { |(_, expert_id), _| expert_id == expert.id }.values.map(&:rating)
+      min_rating, max_rating = expert_ratings.minmax
+
+      @defects.each do |defect|
         evaluation = @evaluations[[defect.id, expert.id]]
         consistency = if max_rating == min_rating
                         1
