@@ -1,6 +1,6 @@
-require 'ffaker'
-
 if Rails.env.development?
+  require 'ffaker'
+
   5.times do |i|
     building = Building.create!(
       name: FFaker::Company.name,
