@@ -25,6 +25,7 @@ group :development do
   gem 'bullet'
   gem 'bundler-audit', require: false
   gem 'bundler-leak', require: false
+  gem 'dockerfile-rails', '>= 1.6'
   gem 'erb_lint', require: false
   gem 'ffaker', require: false
   gem 'pry-rails'

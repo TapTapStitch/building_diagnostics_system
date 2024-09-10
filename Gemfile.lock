@@ -106,6 +106,8 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    dockerfile-rails (1.6.17)
+      rails (>= 3.0.0)
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
       dotenv (= 3.1.2)
@@ -323,6 +325,7 @@ DEPENDENCIES
   bundler-audit
   bundler-leak
   debug
+  dockerfile-rails (>= 1.6)
   dotenv-rails
   erb_lint
   ffaker
