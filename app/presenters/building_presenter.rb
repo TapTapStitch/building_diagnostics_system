@@ -154,7 +154,7 @@ class BuildingPresenter
 
       break if @conformity > 0.5 || @internal_experts.size <= 1
 
-      least_competent_expert_id = @competency.min_by { |_, rank| rank }[0]
+      least_competent_expert_id = @competency.max_by { |_, rank| rank }[0]
       least_competent_expert = @experts.find { |expert| expert.id == least_competent_expert_id }
       @excluded_experts << least_competent_expert
     end
