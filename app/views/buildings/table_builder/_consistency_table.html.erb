@@ -8,7 +8,7 @@
           <p>Experts →</p>
           <p>Defects ↓</p>
         </th>
-        <% @building_presenter.experts.each do |expert| %>
+        <% @building_presenter.internal_experts.each do |expert| %>
           <th class="border border-gray-300 p-4 text-center font-semibold"><%= expert.name %></th>
         <% end %>
         <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Sum ↓</th>
@@ -20,7 +20,7 @@
       <% @building_presenter.defects.each do |defect| %>
         <tr>
           <td class="border border-gray-300 p-4 text-center font-semibold"><%= defect.name %></td>
-          <% @building_presenter.experts.each do |expert| %>
+          <% @building_presenter.internal_experts.each do |expert| %>
             <td class="border border-gray-300 p-4 text-center">
               <%= @building_presenter.consistency[[defect.id, expert.id]] %>
             </td>

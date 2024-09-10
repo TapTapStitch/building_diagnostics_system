@@ -1,50 +1,9 @@
 <%= turbo_frame_tag :main_table do %>
   <% if @building_presenter.able_to_show_main_table? %>
-    <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-      <tr>
-        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">
-          <p>Defects →</p>
-          <p>Experts ↓</p>
-        </th>
-        <% @building_presenter.defects.each do |defect| %>
-          <th class="border border-gray-300 p-4 text-center font-semibold">
-            <%= turbo_frame_tag "defect_#{defect.id}" do %>
-              <%= link_to defect.name, edit_building_defect_path(@building, defect), data: { turbo_frame: "defect_#{defect.id}" } %>
-            <% end %>
-          </th>
-        <% end %>
-      </tr>
-      <% @building_presenter.experts.each do |expert| %>
-        <tr>
-          <td class="border border-gray-300 p-4 text-center font-semibold">
-            <%= turbo_frame_tag "expert_#{expert.id}" do %>
-              <%= link_to expert.name, edit_building_expert_path(@building, expert), data: { turbo_frame: "expert_#{expert.id}" } %>
-            <% end %>
-          </td>
-          <% @building_presenter.defects.each do |defect| %>
-            <td class="border border-gray-300 p-4 text-center">
-              <% evaluation = @building_presenter.evaluations[[defect.id, expert.id]] %>
-              <% if evaluation.present? %>
-                <%= turbo_frame_tag "evaluation_#{evaluation.id}" do %>
-                  <%= link_to evaluation.rating, edit_building_evaluation_path(@building, evaluation), data: { turbo_frame: "defect_#{defect.id}_expert_#{expert.id}" } %>
-                <% end %>
-              <% else %>
-                <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-                  <%= link_to '-', new_building_evaluation_path(@building, defect_id: defect.id, expert_id: expert.id), data: { turbo_frame: "defect_#{defect.id}_expert_#{expert.id}" } %>
-                <% end %>
-              <% end %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-      <tr>
-        <td class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Average →</td>
-        <% @building_presenter.defects.each do |defect| %>
-          <td class="border border-gray-300 p-4 text-center font-semibold bg-blue-100">
-            <%= @building_presenter.average_ratings[defect.id] %>
-          </td>
-        <% end %>
-      </tr>
-    </table>
+    <% if @building_presenter.recalculate_conformity == false %>
+      <%= render 'buildings/table_builder/main_table/main_table' %>
+    <% else %>
+      <%= render 'buildings/table_builder/main_table/main_table_recalculated' %>
+    <% end %>
   <% end %>
 <% end %>

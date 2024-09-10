@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
 class BuildingPresenter
-  attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations,
-              :squared_deviations, :sum_of_squared_deviations, :conformity
+  attr_reader :building, :evaluations, :defects, :experts, :internal_experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations,
+              :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :recalculate_conformity
 
-  def initialize(building)
+  def initialize(building, recalculate_conformity: false)
     @building = building
+    @defects = @building.defects.order(:created_at)
+    @experts = @building.experts.order(:created_at)
+    @recalculate_conformity = recalculate_conformity
+    @excluded_experts = []
     setup_building_data
     perform_evaluation_calculations if evaluations_complete?
+    recalculate_conformity_call if @recalculate_conformity
   end
 
   def able_to_show_main_table?
@@ -31,6 +36,7 @@ class BuildingPresenter
   end
 
   def perform_evaluation_calculations
+    @internal_experts = @experts - @excluded_experts
     calculate_deltas
     calculate_average_deltas
     determine_competency
@@ -69,7 +75,7 @@ class BuildingPresenter
   def calculate_deltas
     @deltas = {}
     @defects.each do |defect|
-      @experts.each do |expert|
+      @internal_experts.each do |expert|
         evaluation = @evaluations[[defect.id, expert.id]]
         delta = (evaluation.rating - @average_ratings[defect.id]).abs.round(2)
         @deltas[[defect.id, expert.id]] = delta
@@ -79,7 +85,7 @@ class BuildingPresenter
 
   def calculate_average_deltas
     @average_deltas = {}
-    @experts.each do |expert|
+    @internal_experts.each do |expert|
       expert_deltas = @deltas.filter_map { |(_, expert_id), delta| delta if expert_id == expert.id }
       @average_deltas[expert.id] = (expert_deltas.sum / expert_deltas.size).round(2)
     end
@@ -95,7 +101,7 @@ class BuildingPresenter
   def calculate_consistency
     @consistency = {}
 
-    @experts.each do |expert|
+    @internal_experts.each do |expert|
       expert_ratings = @evaluations.select { |(_, expert_id), _| expert_id == expert.id }.values.map(&:rating)
       min_rating, max_rating = expert_ratings.minmax
 
@@ -137,8 +143,20 @@ class BuildingPresenter
   end
 
   def calculate_conformity
-    num_experts = @experts.size
+    num_experts = @internal_experts.size
     num_defects = @defects.size
     @conformity = ((12 * @sum_of_squared_deviations) / (num_experts * num_experts * ((num_defects * num_defects * num_defects) - num_defects))).round(2)
+  end
+
+  def recalculate_conformity_call
+    loop do
+      perform_evaluation_calculations
+
+      break if @conformity > 0.5 || @internal_experts.size <= 1
+
+      least_competent_expert_id = @competency.min_by { |_, rank| rank }[0]
+      least_competent_expert = @experts.find { |expert| expert.id == least_competent_expert_id }
+      @excluded_experts << least_competent_expert
+    end
   end
 end

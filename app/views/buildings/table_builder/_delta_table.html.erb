@@ -15,7 +15,7 @@
         <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Competency ↓</th>
       </tr>
 
-      <% @building_presenter.experts.each do |expert| %>
+      <% @building_presenter.internal_experts.each do |expert| %>
         <tr>
           <td class="border border-gray-300 p-4 text-center font-semibold"><%= expert.name %></td>
           <% @building_presenter.defects.each do |defect| %>
