@@ -2,17 +2,17 @@
 
 class BuildingPresenter
   attr_reader :building, :evaluations, :defects, :experts, :internal_experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum,
-              :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :recalculate_conformity
+              :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts
 
-  def initialize(building, recalculate_conformity: false)
+  def initialize(building, recalculate: false)
     @building = building
     @defects = @building.defects.order(:created_at)
     @experts = @building.experts.order(:created_at)
-    @recalculate_conformity = recalculate_conformity
+    @recalculate = recalculate
     @excluded_experts = []
     setup_building_data
     perform_evaluation_calculations if evaluations_complete?
-    recalculate_conformity_call if @recalculate_conformity
+    recalculate_conformity_call if @recalculate
   end
 
   def able_to_show_main_table?
@@ -25,6 +25,10 @@ class BuildingPresenter
 
   def show_notification?
     able_to_show_main_table? == true && evaluations_complete? == false
+  end
+
+  def conformity_was_recalculated?
+    @recalculate
   end
 
   private

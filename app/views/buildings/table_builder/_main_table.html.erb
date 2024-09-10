@@ -1,9 +1,5 @@
 <%= turbo_frame_tag :main_table do %>
   <% if @building_presenter.able_to_show_main_table? %>
-    <% if @building_presenter.recalculate_conformity == false %>
-      <%= render 'buildings/table_builder/main_table/main_table' %>
-    <% else %>
-      <%= render 'buildings/table_builder/main_table/main_table_recalculated' %>
-    <% end %>
+    <%= @building_presenter.conformity_was_recalculated? ? render('buildings/table_builder/recalculated/main_table') : render('buildings/table_builder/default/main_table') %>
   <% end %>
 <% end %>

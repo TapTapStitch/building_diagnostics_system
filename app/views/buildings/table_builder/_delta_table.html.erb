@@ -1,36 +1,5 @@
 <%= turbo_frame_tag :delta_table do %>
   <% if @building_presenter.able_to_show_additional_tables? %>
-    <h2 class="text-2xl font-bold mb-4">Delta Table of Evaluations</h2>
-    <p class="mb-4">Formula: delta = evaluation - average</p>
-    <table class="min-w-full border-collapse border border-gray-300 shadow-lg">
-      <tr>
-        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">
-          <p>Defects →</p>
-          <p>Experts ↓</p>
-        </th>
-        <% @building_presenter.defects.each do |defect| %>
-          <th class="border border-gray-300 p-4 text-center font-semibold"><%= defect.name %></th>
-        <% end %>
-        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Average Delta ↓</th>
-        <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Competency ↓</th>
-      </tr>
-
-      <% @building_presenter.internal_experts.each do |expert| %>
-        <tr>
-          <td class="border border-gray-300 p-4 text-center font-semibold"><%= expert.name %></td>
-          <% @building_presenter.defects.each do |defect| %>
-            <td class="border border-gray-300 p-4 text-center">
-              <%= @building_presenter.deltas[[defect.id, expert.id]] %>
-            </td>
-          <% end %>
-          <td class="border border-gray-300 p-4 text-center bg-yellow-200">
-            <%= @building_presenter.average_deltas[expert.id] %>
-          </td>
-          <td class="border border-gray-300 p-4 text-center bg-green-200">
-            <%= @building_presenter.competency[expert.id] %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
+    <%= @building_presenter.conformity_was_recalculated? ? render('buildings/table_builder/recalculated/delta_table') : render('buildings/table_builder/default/delta_table') %>
   <% end %>
 <% end %>

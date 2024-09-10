@@ -11,12 +11,13 @@
     <% end %>
   </tr>
   <% @building_presenter.experts.each do |expert| %>
+    <% expert_excluded = @building_presenter.excluded_experts.include?(expert) %>
     <tr>
-      <td class="border border-gray-300 p-4 text-center font-semibold <%= 'bg-red-100' if @building_presenter.excluded_experts.include?(expert) %>">
+      <td class="border border-gray-300 p-4 text-center font-semibold <%= 'bg-red-100' if expert_excluded %>">
         <%= expert.name %>
       </td>
       <% @building_presenter.defects.each do |defect| %>
-        <td class="border border-gray-300 p-4 text-center <%= 'bg-red-100' if @building_presenter.excluded_experts.include?(expert) %>">
+        <td class="border border-gray-300 p-4 text-center <%= 'bg-red-100' if expert_excluded %>">
           <%= @building_presenter.evaluations[[defect.id, expert.id]].rating %>
         </td>
       <% end %>

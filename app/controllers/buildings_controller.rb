@@ -41,7 +41,7 @@ class BuildingsController < ApplicationController
   end
 
   def recalculate_conformity
-    @building_presenter = BuildingPresenter.new(@building, recalculate_conformity: true)
+    @building_presenter = BuildingPresenter.new(@building, recalculate: true)
     render 'buildings/turbo_replace'
   end
 
