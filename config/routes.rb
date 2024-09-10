@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       end
     end
     member do
-      post :recalculate_conformity
+      get :recalculate_conformity
     end
   end
 

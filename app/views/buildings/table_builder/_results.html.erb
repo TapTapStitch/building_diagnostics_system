@@ -24,7 +24,7 @@
           <p class="text-2xl font-bold text-red-800"><%= @building_presenter.conformity %></p>
         </div>
         <div class="mt-4">
-          <%= link_to 'Recalculate Conformity', recalculate_conformity_building_path(@building), data: { turbo_method: :post }, class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' %>
+          <%= link_to 'Recalculate Conformity', recalculate_conformity_building_path(@building), data: { turbo_stream: true }, class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' %>
         </div>
       <% end %>
       <% if @building_presenter.recalculate_conformity %>
