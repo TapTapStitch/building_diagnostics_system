@@ -17,7 +17,7 @@
       </td>
       <% @building_presenter.defects.each do |defect| %>
         <td class="border border-gray-300 p-4 text-center <%= 'bg-red-100' if @building_presenter.excluded_experts.include?(expert) %>">
-          <%= @building_presenter.evaluations[[defect.id, expert.id]].rating || "-" %>
+          <%= @building_presenter.evaluations[[defect.id, expert.id]].rating %>
         </td>
       <% end %>
     </tr>

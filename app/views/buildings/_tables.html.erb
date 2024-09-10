@@ -15,23 +15,25 @@
     <% end %>
   </div>
 
-  <div class="overflow-auto">
-    <%= render 'buildings/table_builder/main_table' %>
-  </div>
+  <%= turbo_frame_tag :tables do %>
+    <div class="overflow-auto">
+      <%= render 'buildings/table_builder/main_table' %>
+    </div>
 
-  <div class="mt-5">
-    <%= render 'buildings/table_builder/notification' %>
-  </div>
+    <div class="mt-5">
+      <%= render 'buildings/table_builder/notification' %>
+    </div>
 
-  <div class="overflow-auto mt-10">
-    <%= render 'buildings/table_builder/delta_table' %>
-  </div>
+    <div class="overflow-auto mt-10">
+      <%= render 'buildings/table_builder/delta_table' %>
+    </div>
 
-  <div class="overflow-auto mt-10">
-    <%= render 'buildings/table_builder/consistency_table' %>
-  </div>
+    <div class="overflow-auto mt-10">
+      <%= render 'buildings/table_builder/consistency_table' %>
+    </div>
 
-  <div class="mt-10">
-    <%= render 'buildings/table_builder/results' %>
-  </div>
+    <div class="mt-10">
+      <%= render 'buildings/table_builder/results' %>
+    </div>
+  <% end %>
 </div>

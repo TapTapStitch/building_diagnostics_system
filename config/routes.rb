@@ -18,6 +18,9 @@ Rails.application.routes.draw do
         post :import_xml, to: 'xml#import'
       end
     end
+    member do
+      post :recalculate_conformity
+    end
   end
 
   get 'up' => 'rails/health#show', as: :rails_health_check

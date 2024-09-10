@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BuildingsController < ApplicationController
-  before_action :set_building, only: %i[show edit update]
+  before_action :set_building, only: %i[show edit update recalculate_conformity]
 
   def index
     @buildings = Building.order(created_at: :desc)
@@ -38,6 +38,11 @@ class BuildingsController < ApplicationController
     Building.includes(defects: :evaluations, experts: :evaluations).find(params[:id]).destroy!
 
     redirect_to buildings_url, notice: t('buildings.destroy')
+  end
+
+  def recalculate_conformity
+    @building_presenter = BuildingPresenter.new(@building, recalculate_conformity: true)
+    render 'buildings/turbo_replace'
   end
 
   private
