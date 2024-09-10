@@ -2,7 +2,7 @@
 
 class BuildingPresenter
   attr_reader :building, :evaluations, :defects, :experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations,
-              :squared_deviations, :sum_of_squared_deviations
+              :squared_deviations, :sum_of_squared_deviations, :conformity
 
   def initialize(building)
     @building = building
@@ -39,6 +39,7 @@ class BuildingPresenter
     calculate_weights
     calculate_deviations
     calculate_squared_deviations
+    calculate_conformity
   end
 
   def set_defects_and_experts
@@ -86,9 +87,9 @@ class BuildingPresenter
 
   def determine_competency
     @competency = @average_deltas
-      .sort_by { |_, avg_delta| avg_delta }
-      .each_with_index
-      .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
+                    .sort_by { |_, avg_delta| avg_delta }
+                    .each_with_index
+                    .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
   end
 
   def calculate_consistency
@@ -131,7 +132,13 @@ class BuildingPresenter
   end
 
   def calculate_squared_deviations
-    @squared_deviations = @deviations.transform_values { |deviation| (deviation**2).round(2) }
+    @squared_deviations = @deviations.transform_values { |deviation| (deviation ** 2).round(2) }
     @sum_of_squared_deviations = @squared_deviations.values.sum.round(2)
+  end
+
+  def calculate_conformity
+    num_experts = @experts.size
+    num_defects = @defects.size
+    @conformity = ((12 * @sum_of_squared_deviations) / (num_experts * num_experts * ((num_defects * num_defects * num_defects) - num_defects))).round(2)
   end
 end

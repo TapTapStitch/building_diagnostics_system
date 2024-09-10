@@ -1,0 +1,29 @@
+<%= turbo_frame_tag :results do %>
+  <% if @building_presenter.able_to_show_additional_tables? %>
+    <div class="mt-6 text-center">
+      <div class="inline-block bg-blue-50 p-4 rounded-md shadow mb-4">
+        <p class="text-lg font-semibold text-blue-700">Total Sum:</p>
+        <p class="text-2xl font-bold text-blue-800"><%= @building_presenter.total_sum %></p>
+      </div>
+      <div class="inline-block bg-blue-50 p-4 rounded-md shadow">
+        <p class="text-lg font-semibold text-blue-700">Average Sum:</p>
+        <p class="text-2xl font-bold text-blue-800"><%= @building_presenter.average_sum %></p>
+      </div>
+      <div class="inline-block bg-blue-50 p-4 rounded-md shadow">
+        <p class="text-lg font-semibold text-blue-700">Sum of Squared Deviations:</p>
+        <p class="text-2xl font-bold text-blue-800"><%= @building_presenter.sum_of_squared_deviations %></p>
+      </div>
+      <% if @building_presenter.conformity > 0.5 %>
+        <div class="inline-block p-4 rounded-md shadow bg-green-50">
+          <p class="text-lg font-semibold text-green-700">Conformity:</p>
+          <p class="text-2xl font-bold text-green-800"><%= @building_presenter.conformity %></p>
+        </div>
+      <% else %>
+        <div class="inline-block p-4 rounded-md shadow bg-red-50">
+          <p class="text-lg font-semibold text-red-700">Conformity:</p>
+          <p class="text-2xl font-bold text-red-800"><%= @building_presenter.conformity %></p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
