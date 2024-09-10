@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class BuildingPresenter
-  attr_reader :building, :evaluations, :defects, :experts, :internal_experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum, :weights, :deviations,
-              :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :recalculate_conformity
+  attr_reader :building, :evaluations, :defects, :experts, :internal_experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum,
+              :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :recalculate_conformity
 
   def initialize(building, recalculate_conformity: false)
     @building = building
@@ -93,9 +93,9 @@ class BuildingPresenter
 
   def determine_competency
     @competency = @average_deltas
-                    .sort_by { |_, avg_delta| avg_delta }
-                    .each_with_index
-                    .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
+      .sort_by { |_, avg_delta| avg_delta }
+      .each_with_index
+      .to_h { |(expert_id, _), idx| [expert_id, idx + 1] }
   end
 
   def calculate_consistency
@@ -138,7 +138,7 @@ class BuildingPresenter
   end
 
   def calculate_squared_deviations
-    @squared_deviations = @deviations.transform_values { |deviation| (deviation ** 2).round(2) }
+    @squared_deviations = @deviations.transform_values { |deviation| (deviation**2).round(2) }
     @sum_of_squared_deviations = @squared_deviations.values.sum.round(2)
   end
 
