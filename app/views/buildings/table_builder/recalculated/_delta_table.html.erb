@@ -17,7 +17,7 @@
       <td class="border border-gray-300 p-4 text-center font-semibold <%= 'bg-red-100' if expert_excluded %>"><%= expert.name %></td>
       <% @building_presenter.defects.each do |defect| %>
         <td class="border border-gray-300 p-4 text-center <%= 'bg-red-100' if @building_presenter.excluded_experts.include?(expert) %>">
-          <%=@building_presenter.deltas[[defect.id, expert.id]] %>
+          <%= @building_presenter.deltas[[defect.id, expert.id]] %>
         </td>
       <% end %>
       <td class="border border-gray-300 p-4 text-center <%= expert_excluded ? 'bg-red-100' : 'bg-yellow-200' %>">
