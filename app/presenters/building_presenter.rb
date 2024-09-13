@@ -16,7 +16,7 @@ class BuildingPresenter
   end
 
   def able_to_show_main_table?
-    @able_to_show_main_table ||= @experts.exists? && @defects.exists?
+    @able_to_show_main_table ||= @experts.exists? || @defects.exists?
   end
 
   def able_to_show_additional_tables?
@@ -149,7 +149,11 @@ class BuildingPresenter
   def calculate_conformity
     num_experts = @internal_experts.size
     num_defects = @defects.size
-    @conformity = ((12 * @sum_of_squared_deviations) / (num_experts * num_experts * ((num_defects * num_defects * num_defects) - num_defects))).round(2)
+    @conformity = if num_experts == 1 && num_defects == 1
+                    1
+                  else
+                    ((12 * @sum_of_squared_deviations) / (num_experts * num_experts * ((num_defects * num_defects * num_defects) - num_defects))).round(2)
+                  end
   end
 
   def recalculate_conformity_call
