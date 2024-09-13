@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class BuildingsController < ApplicationController
-  before_action :set_building, only: %i[show edit update recalculate_conformity]
+  before_action :set_building, only: %i[show edit update]
 
   def index
     @buildings = Building.order(created_at: :desc)
   end
 
   def show
-    @building_presenter = BuildingPresenter.new(@building)
+    recalculate = params[:recalculate] == 'true'
+    @building_presenter = BuildingPresenter.new(@building, recalculate:)
   end
 
   def new
@@ -20,7 +21,7 @@ class BuildingsController < ApplicationController
   def create
     @building = Building.new(building_params)
     if @building.save
-      redirect_to building_url(@building), notice: t('buildings.create')
+      redirect_to building_url(@building, format: :html), notice: t('buildings.create')
     else
       render :new, status: :unprocessable_entity
     end
@@ -38,11 +39,6 @@ class BuildingsController < ApplicationController
     Building.includes(defects: :evaluations, experts: :evaluations).find(params[:id]).destroy!
 
     redirect_to buildings_url, notice: t('buildings.destroy')
-  end
-
-  def recalculate_conformity
-    @building_presenter = BuildingPresenter.new(@building, recalculate: true)
-    render 'buildings/turbo_replace'
   end
 
   private

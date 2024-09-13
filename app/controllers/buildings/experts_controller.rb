@@ -11,26 +11,26 @@ module Buildings
       @expert = Expert.new(expert_params)
       @expert.building = @building
       if @expert.save
-        flash.now[:notice] = t('experts.create.success')
+        flash[:notice] = t('experts.create.success')
       else
-        flash.now[:alert] = t('experts.create.failure')
+        flash[:alert] = t('experts.create.failure')
       end
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     def update
       if @expert.update(expert_params)
-        flash.now[:notice] = t('experts.update.success')
+        flash[:notice] = t('experts.update.success')
       else
-        flash.now[:alert] = t('experts.update.failure')
+        flash[:alert] = t('experts.update.failure')
       end
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     def destroy
       @expert.destroy!
-      flash.now[:notice] = t('experts.destroy')
-      set_presenter
+      flash[:notice] = t('experts.destroy')
+      redirect_back(fallback_location:)
     end
 
     private
@@ -45,11 +45,6 @@ module Buildings
 
     def expert_params
       params.require(:expert).permit(:name)
-    end
-
-    def set_presenter
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
     end
   end
 end

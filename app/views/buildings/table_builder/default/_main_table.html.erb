@@ -22,14 +22,9 @@
       <% @building_presenter.defects.each do |defect| %>
         <td class="border border-gray-300 p-4 text-center">
           <% evaluation = @building_presenter.evaluations[[defect.id, expert.id]] %>
-          <% if evaluation.present? %>
-            <%= turbo_frame_tag "evaluation_#{evaluation.id}" do %>
-              <%= link_to evaluation.rating, edit_building_evaluation_path(@building, evaluation) %>
-            <% end %>
-          <% else %>
-            <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
-              <%= link_to '-', new_building_evaluation_path(@building, defect_id: defect.id, expert_id: expert.id) %>
-            <% end %>
+          <%= turbo_frame_tag "defect_#{defect.id}_expert_#{expert.id}" do %>
+            <% link_path = evaluation.present? ? edit_building_evaluation_path(@building, evaluation) : new_building_evaluation_path(@building, defect_id: defect.id, expert_id: expert.id) %>
+            <%= link_to (evaluation.present? ? evaluation.rating : '-'), link_path %>
           <% end %>
         </td>
       <% end %>

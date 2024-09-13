@@ -11,26 +11,26 @@ module Buildings
       @defect = Defect.new(defect_params)
       @defect.building = @building
       if @defect.save
-        flash.now[:notice] = t('defects.create.success')
+        flash[:notice] = t('defects.create.success')
       else
-        flash.now[:alert] = t('defects.create.failure')
+        flash[:alert] = t('defects.create.failure')
       end
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     def update
       if @defect.update(defect_params)
-        flash.now[:notice] = t('defects.update.success')
+        flash[:notice] = t('defects.update.success')
       else
-        flash.now[:alert] = t('defects.update.failure')
+        flash[:alert] = t('defects.update.failure')
       end
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     def destroy
       @defect.destroy!
       flash.now[:notice] = t('defects.destroy')
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     private
@@ -45,11 +45,6 @@ module Buildings
 
     def defect_params
       params.require(:defect).permit(:name)
-    end
-
-    def set_presenter
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
     end
   end
 end

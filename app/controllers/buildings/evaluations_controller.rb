@@ -12,33 +12,42 @@ module Buildings
     def create
       @evaluation = Evaluation.new(evaluation_params)
       if @evaluation.save
-        flash.now[:notice] = t('evaluations.create.success')
+        flash[:notice] = t('evaluations.create.success')
       else
-        flash.now[:alert] = t('evaluations.create.failure')
+        flash[:alert] = t('evaluations.create.failure')
       end
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     def update
       if @evaluation.update(evaluation_params)
-        flash.now[:notice] = t('evaluations.update.success')
+        flash[:notice] = t('evaluations.update.success')
       else
-        flash.now[:alert] = t('evaluations.update.failure')
+        flash[:alert] = t('evaluations.update.failure')
       end
-      set_presenter
+      redirect_back(fallback_location:)
     end
 
     def destroy
       @evaluation.destroy!
-      flash.now[:notice] = t('evaluations.destroy')
-      set_presenter
+      flash[:notice] = t('evaluations.destroy')
+      redirect_back(fallback_location:)
     end
 
     def generate_random
       defects = @building.defects
       experts = @building.experts
-      handle_generate_random(defects, experts)
-      set_presenter
+      if defects.exists? && experts.exists?
+        if evaluations_missing?(defects, experts)
+          generate_missing_evaluations(defects, experts)
+          flash[:notice] = t('evaluations.generate_random.success')
+        else
+          flash[:alert] = t('evaluations.generate_random.all_filled')
+        end
+      else
+        flash[:alert] = t('evaluations.generate_random.no_defects_or_experts')
+      end
+      redirect_back(fallback_location:)
     end
 
     private
@@ -53,24 +62,6 @@ module Buildings
 
     def evaluation_params
       params.require(:evaluation).permit(:defect_id, :expert_id, :rating)
-    end
-
-    def set_presenter
-      @building_presenter = BuildingPresenter.new(@building)
-      render 'buildings/turbo_replace'
-    end
-
-    def handle_generate_random(defects, experts)
-      if defects.exists? && experts.exists?
-        if evaluations_missing?(defects, experts)
-          generate_missing_evaluations(defects, experts)
-          flash.now[:notice] = t('evaluations.generate_random.success')
-        else
-          flash.now[:alert] = t('evaluations.generate_random.all_filled')
-        end
-      else
-        flash.now[:alert] = t('evaluations.generate_random.no_defects_or_experts')
-      end
     end
 
     def evaluations_missing?(defects, experts)
