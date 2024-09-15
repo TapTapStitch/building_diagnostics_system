@@ -16,7 +16,7 @@ module Buildings
       else
         flash[:alert] = t('evaluations.create.failure')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def update
@@ -25,13 +25,13 @@ module Buildings
       else
         flash[:alert] = t('evaluations.update.failure')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def destroy
       @evaluation.destroy!
       flash[:notice] = t('evaluations.destroy')
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def generate_random
@@ -47,7 +47,7 @@ module Buildings
       else
         flash[:alert] = t('evaluations.generate_random.no_defects_or_experts')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     private

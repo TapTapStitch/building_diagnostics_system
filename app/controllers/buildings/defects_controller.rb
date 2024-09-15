@@ -15,7 +15,7 @@ module Buildings
       else
         flash[:alert] = t('defects.create.failure')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def update
@@ -24,13 +24,13 @@ module Buildings
       else
         flash[:alert] = t('defects.update.failure')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def destroy
       @defect.destroy!
       flash.now[:notice] = t('defects.destroy')
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     private

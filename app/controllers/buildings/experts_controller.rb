@@ -15,7 +15,7 @@ module Buildings
       else
         flash[:alert] = t('experts.create.failure')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def update
@@ -24,13 +24,13 @@ module Buildings
       else
         flash[:alert] = t('experts.update.failure')
       end
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     def destroy
       @expert.destroy!
       flash[:notice] = t('experts.destroy')
-      redirect_back(fallback_location:)
+      redirect_to building_path(@building)
     end
 
     private
