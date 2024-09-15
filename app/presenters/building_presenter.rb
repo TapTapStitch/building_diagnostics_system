@@ -2,17 +2,23 @@
 
 class BuildingPresenter
   attr_reader :building, :evaluations, :defects, :experts, :internal_experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum,
-              :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts
+              :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :step
 
-  def initialize(building, recalculate: false)
+  def initialize(building, recalculate_all: false, step: 0)
     @building = building
     @defects = @building.defects.order(:created_at)
     @experts = @building.experts.order(:created_at)
-    @recalculate = recalculate
+    @recalculate_all = recalculate_all
+    @step = step
     @excluded_experts = []
     setup_building_data
     perform_evaluation_calculations if evaluations_complete?
-    recalculate_conformity_call if @recalculate
+
+    if @step.positive?
+      recalculate_conformity_by_step
+    elsif @recalculate_all
+      recalculate_conformity_call
+    end
   end
 
   def able_to_show_main_table?
@@ -28,7 +34,15 @@ class BuildingPresenter
   end
 
   def conformity_was_recalculated?
-    @recalculate
+    @recalculate_all || @step.positive?
+  end
+
+  def can_go_back?
+    @step.positive?
+  end
+
+  def can_go_forward?
+    @conformity <= 0.5 && @internal_experts.size > 1
   end
 
   private
@@ -160,11 +174,23 @@ class BuildingPresenter
     loop do
       perform_evaluation_calculations
 
-      break if @conformity > 0.5 || @internal_experts.size <= 1
+      break unless can_go_forward?
 
-      least_competent_expert_id = @competency.max_by { |_, rank| rank }[0]
-      least_competent_expert = @experts.find { |expert| expert.id == least_competent_expert_id }
-      @excluded_experts << least_competent_expert
+      @excluded_experts << find_least_competent_expert
     end
+  end
+
+  def recalculate_conformity_by_step
+    @step.times do
+      break unless can_go_forward?
+
+      @excluded_experts << find_least_competent_expert
+      perform_evaluation_calculations
+    end
+  end
+
+  def find_least_competent_expert
+    least_competent_expert_id = @competency.max_by { |_, rank| rank }[0]
+    @experts.find { |expert| expert.id == least_competent_expert_id }
   end
 end

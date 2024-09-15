@@ -8,8 +8,9 @@ class BuildingsController < ApplicationController
   end
 
   def show
-    recalculate = params[:recalculate] == 'true'
-    @building_presenter = BuildingPresenter.new(@building, recalculate:)
+    recalculate_all = params[:recalculate_all] == 'true'
+    step = params[:step].to_i
+    @building_presenter = BuildingPresenter.new(@building, recalculate_all:, step:)
   end
 
   def new
@@ -21,7 +22,7 @@ class BuildingsController < ApplicationController
   def create
     @building = Building.new(building_params)
     if @building.save
-      redirect_to building_url(@building, format: :html), notice: t('buildings.create')
+      redirect_to buildings_url, notice: t('buildings.create')
     else
       render :new, status: :unprocessable_entity
     end
