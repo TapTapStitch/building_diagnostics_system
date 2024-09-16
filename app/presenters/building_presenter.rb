@@ -42,7 +42,7 @@ class BuildingPresenter
   end
 
   def can_go_forward?
-    @conformity <= 0.5 && @internal_experts.size > 1
+    @conformity <= 0.5
   end
 
   private
