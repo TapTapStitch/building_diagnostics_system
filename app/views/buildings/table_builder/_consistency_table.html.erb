@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :consistency_table do %>
   <% if @building_presenter.able_to_show_additional_tables? %>
     <h2 class="text-2xl font-bold mb-4">Consistency Table of Experts</h2>
-    <%= @building_presenter.conformity_was_recalculated? ? render('buildings/table_builder/recalculated/consistency_table') : render('buildings/table_builder/default/consistency_table') %>
+    <%= @building_presenter.conformity_was_recalculated? ? render("buildings/table_builder/recalculated/consistency_table") : render("buildings/table_builder/default/consistency_table") %>
   <% end %>
 <% end %>

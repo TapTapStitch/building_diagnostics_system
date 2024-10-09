@@ -5,7 +5,7 @@
       <p>Defects ↓</p>
     </th>
     <% @building_presenter.experts.each do |expert| %>
-      <th class="border border-gray-300 p-4 text-center font-semibold <%= 'bg-red-100' if @building_presenter.excluded_experts.include?(expert) %>"><%= expert.name %></th>
+      <th class="border border-gray-300 p-4 text-center font-semibold <%= "bg-red-100" if @building_presenter.excluded_experts.include?(expert) %>"><%= expert.name %></th>
     <% end %>
     <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Sum ↓</th>
     <th class="border border-gray-300 p-4 bg-blue-100 font-bold text-blue-700 text-center">Weight ↓</th>
@@ -17,7 +17,7 @@
     <tr>
       <td class="border border-gray-300 p-4 text-center font-semibold"><%= defect.name %></td>
       <% @building_presenter.experts.each do |expert| %>
-        <td class="border border-gray-300 p-4 text-center <%= 'bg-red-100' if @building_presenter.excluded_experts.include?(expert) %>">
+        <td class="border border-gray-300 p-4 text-center <%= "bg-red-100" if @building_presenter.excluded_experts.include?(expert) %>">
           <%= @building_presenter.consistency[[defect.id, expert.id]] %>
         </td>
       <% end %>

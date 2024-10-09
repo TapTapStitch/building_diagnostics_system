@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'buildings#index'
+  root "buildings#index"
   resources :buildings do
     scope module: :buildings do
       resources :defects, only: %i[edit create update destroy]
@@ -12,13 +12,13 @@ Rails.application.routes.draw do
         end
       end
       member do
-        get :export_xml, to: 'xml#export'
+        get :export_xml, to: "xml#export"
       end
       collection do
-        post :import_xml, to: 'xml#import'
+        post :import_xml, to: "xml#import"
       end
     end
   end
 
-  get 'up' => 'rails/health#show', as: :rails_health_check
+  get "up" => "rails/health#show", :as => :rails_health_check
 end

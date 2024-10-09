@@ -2,7 +2,7 @@
 
 class BuildingPresenter
   attr_reader :building, :evaluations, :defects, :experts, :internal_experts, :average_ratings, :deltas, :average_deltas, :competency, :consistency, :consistency_sums, :total_sum, :average_sum,
-              :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :step
+    :weights, :deviations, :squared_deviations, :sum_of_squared_deviations, :conformity, :excluded_experts, :step
 
   def initialize(building, recalculate_all: false, step: 0)
     @building = building
@@ -78,7 +78,7 @@ class BuildingPresenter
   def calculate_average_ratings
     @average_ratings = @defects.each_with_object({}) do |defect, hash|
       ratings = @evaluations.select { |(defect_id, _), _| defect_id == defect.id }.values.map(&:rating)
-      hash[defect.id] = ratings.any? ? (ratings.sum / ratings.size).round(2) : '-'
+      hash[defect.id] = ratings.any? ? (ratings.sum / ratings.size).round(2) : "-"
     end
   end
 
@@ -126,10 +126,10 @@ class BuildingPresenter
       @defects.each do |defect|
         evaluation = @evaluations[[defect.id, expert.id]]
         consistency = if max_rating == min_rating
-                        1
-                      else
-                        1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
-                      end
+          1
+        else
+          1 + ((evaluation.rating - min_rating) * (@defects.size - 1) / (max_rating - min_rating))
+        end
         @consistency[[defect.id, expert.id]] = consistency.round(0)
       end
     end
@@ -164,10 +164,10 @@ class BuildingPresenter
     num_experts = @internal_experts.size
     num_defects = @defects.size
     @conformity = if num_experts == 1 && num_defects == 1
-                    1
-                  else
-                    ((12 * @sum_of_squared_deviations) / (num_experts * num_experts * ((num_defects * num_defects * num_defects) - num_defects))).round(2)
-                  end
+      1
+    else
+      ((12 * @sum_of_squared_deviations) / (num_experts * num_experts * ((num_defects * num_defects * num_defects) - num_defects))).round(2)
+    end
   end
 
   def recalculate_conformity_call

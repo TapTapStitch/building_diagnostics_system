@@ -1,14 +1,14 @@
 <%= turbo_frame_tag "defect_#{@evaluation.defect.id}_expert_#{@evaluation.expert.id}" do %>
-  <%= form_with(model: @evaluation, url: building_evaluation_path(@building, @evaluation), class: 'space-y-4') do |form| %>
+  <%= form_with(model: @evaluation, url: building_evaluation_path(@building, @evaluation), class: "space-y-4") do |form| %>
     <div class="flex flex-col">
-      <%= form.label :rating, class: 'text-sm font-medium text-gray-700' %>
-      <%= form.number_field :rating, step: 0.01, min: 0, max: 1, value: @evaluation.rating, required: true, class: 'mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center' %>
+      <%= form.label :rating, class: "text-sm font-medium text-gray-700" %>
+      <%= form.number_field :rating, step: 0.01, min: 0, max: 1, value: @evaluation.rating, required: true, class: "mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center" %>
     </div>
 
     <div class="flex space-x-4">
-      <%= form.submit 'Save', class: 'flex-1 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer' %>
-      <%= link_to 'Cancel', '#', data: { turbo_frame: "defect_#{@evaluation.defect.id}_expert_#{@evaluation.expert.id}" }, class: 'flex-1 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
-      <%= link_to 'Delete', building_evaluation_path(@building, @evaluation), data: { turbo_method: :delete }, class: 'flex-1 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500' %>
+      <%= form.submit "Save", class: "flex-1 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer" %>
+      <%= link_to "Cancel", "#", data: {turbo_frame: "defect_#{@evaluation.defect.id}_expert_#{@evaluation.expert.id}"}, class: "flex-1 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      <%= link_to "Delete", building_evaluation_path(@building, @evaluation), data: {turbo_method: :delete}, class: "flex-1 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
     </div>
   <% end %>
 <% end %>

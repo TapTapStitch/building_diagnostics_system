@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :building_turbo do %>
   <div class="border border-gray-300 rounded-lg mb-4 p-4">
-    <%= render 'form', building: @building %>
-    <%= link_to 'Cancel', '#turbo', data: { turbo_frame: :building_turbo }, class: 'rounded-lg py-3 px-5 bg-gray-600 text-white inline-block font-medium cursor-pointer' %>
+    <%= render "form", building: @building %>
+    <%= link_to "Cancel", "#turbo", data: {turbo_frame: :building_turbo}, class: "rounded-lg py-3 px-5 bg-gray-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

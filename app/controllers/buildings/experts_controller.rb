@@ -5,31 +5,32 @@ module Buildings
     before_action :set_building
     before_action :set_expert, only: %i[edit update destroy]
 
-    def edit; end
+    def edit
+    end
 
     def create
       @expert = Expert.new(expert_params)
       @expert.building = @building
       if @expert.save
-        flash[:notice] = t('experts.create.success')
+        flash[:notice] = t("experts.create.success")
       else
-        flash[:alert] = t('experts.create.failure')
+        flash[:alert] = t("experts.create.failure")
       end
       redirect_to building_path(@building)
     end
 
     def update
       if @expert.update(expert_params)
-        flash[:notice] = t('experts.update.success')
+        flash[:notice] = t("experts.update.success")
       else
-        flash[:alert] = t('experts.update.failure')
+        flash[:alert] = t("experts.update.failure")
       end
       redirect_to building_path(@building)
     end
 
     def destroy
       @expert.destroy!
-      flash[:notice] = t('experts.destroy')
+      flash[:notice] = t("experts.destroy")
       redirect_to building_path(@building)
     end
 

@@ -1,9 +1,9 @@
-<%= form_with url: import_xml_buildings_path, local: true, class: 'mt-4' do |form| %>
+<%= form_with url: import_xml_buildings_path, local: true, class: "mt-4" do |form| %>
   <div class="mb-4">
-    <%= form.label :file, 'Import from XML', class: 'block text-gray-700' %>
-    <%= form.file_field :file, accept: '.xml', class: 'border border-gray-300 rounded p-2 w-full' %>
+    <%= form.label :file, "Import from XML", class: "block text-gray-700" %>
+    <%= form.file_field :file, accept: ".xml", class: "border border-gray-300 rounded p-2 w-full" %>
   </div>
   <div>
-    <%= form.submit 'Import', class: 'bg-green-500 text-white rounded px-4 py-2' %>
+    <%= form.submit "Import", class: "bg-green-500 text-white rounded px-4 py-2" %>
   </div>
 <% end %>

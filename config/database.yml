@@ -8,10 +8,6 @@ development:
   <<: *default
   database: building_diagnostics_system_development
 
-test:
-  <<: *default
-  database: building_diagnostics_system_test
-
 production:
   <<: *default
   database: building_diagnostics_system_production

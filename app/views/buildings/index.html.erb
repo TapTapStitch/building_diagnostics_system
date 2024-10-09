@@ -1,7 +1,7 @@
 <div class="w-full">
   <div class="flex justify-between items-center mb-4">
     <h1 class="font-bold text-4xl">Buildings</h1>
-    <%= link_to 'New building', new_building_path, class: 'rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium' %>
+    <%= link_to "New building", new_building_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
 
   <div id="buildings" class="min-w-full">
@@ -9,12 +9,12 @@
       <div class="border border-gray-300 rounded-lg mb-4 p-4">
         <%= render building %>
         <p>
-          <%= link_to 'Show this building', building, class: 'mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium border border-gray-300' %>
-          <%= link_to 'Delete', building, data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this building?' }, class: 'mt-2 rounded-lg py-3 px-5 bg-red-500 text-white font-medium' %>
+          <%= link_to "Show this building", building, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium border border-gray-300" %>
+          <%= link_to "Delete", building, data: {turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this building?"}, class: "mt-2 rounded-lg py-3 px-5 bg-red-500 text-white font-medium" %>
         </p>
       </div>
     <% end %>
   </div>
 
-  <%= render 'buildings/import_from_xml' %>
+  <%= render "buildings/import_from_xml" %>
 </div>

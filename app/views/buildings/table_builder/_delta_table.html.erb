@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :delta_table do %>
   <% if @building_presenter.able_to_show_additional_tables? %>
     <h2 class="text-2xl font-bold mb-4">Delta Table of Evaluations</h2>
-    <%= @building_presenter.conformity_was_recalculated? ? render('buildings/table_builder/recalculated/delta_table') : render('buildings/table_builder/default/delta_table') %>
+    <%= @building_presenter.conformity_was_recalculated? ? render("buildings/table_builder/recalculated/delta_table") : render("buildings/table_builder/default/delta_table") %>
   <% end %>
 <% end %>

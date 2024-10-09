@@ -1,5 +1,5 @@
 if Rails.env.development?
-  require 'ffaker'
+  require "ffaker"
 
   5.times do |i|
     building = Building.create!(
@@ -32,7 +32,7 @@ if Rails.env.development?
     end
   end
 
-  puts "Seed data created successfully!"
+  Rails.logger.debug "Seed data created successfully!"
 else
-  puts "Seeds can only be run in the development environment."
+  Rails.logger.debug "Seeds can only be run in the development environment."
 end

@@ -5,32 +5,34 @@ module Buildings
     before_action :set_building
     before_action :set_evaluation, only: %i[edit update destroy]
 
-    def new; end
+    def new
+    end
 
-    def edit; end
+    def edit
+    end
 
     def create
       @evaluation = Evaluation.new(evaluation_params)
       if @evaluation.save
-        flash[:notice] = t('evaluations.create.success')
+        flash[:notice] = t("evaluations.create.success")
       else
-        flash[:alert] = t('evaluations.create.failure')
+        flash[:alert] = t("evaluations.create.failure")
       end
       redirect_to building_path(@building)
     end
 
     def update
       if @evaluation.update(evaluation_params)
-        flash[:notice] = t('evaluations.update.success')
+        flash[:notice] = t("evaluations.update.success")
       else
-        flash[:alert] = t('evaluations.update.failure')
+        flash[:alert] = t("evaluations.update.failure")
       end
       redirect_to building_path(@building)
     end
 
     def destroy
       @evaluation.destroy!
-      flash[:notice] = t('evaluations.destroy')
+      flash[:notice] = t("evaluations.destroy")
       redirect_to building_path(@building)
     end
 
@@ -40,12 +42,12 @@ module Buildings
       if defects.exists? && experts.exists?
         if evaluations_missing?(defects, experts)
           generate_missing_evaluations(defects, experts)
-          flash[:notice] = t('evaluations.generate_random.success')
+          flash[:notice] = t("evaluations.generate_random.success")
         else
-          flash[:alert] = t('evaluations.generate_random.all_filled')
+          flash[:alert] = t("evaluations.generate_random.all_filled")
         end
       else
-        flash[:alert] = t('evaluations.generate_random.no_defects_or_experts')
+        flash[:alert] = t("evaluations.generate_random.no_defects_or_experts")
       end
       redirect_to building_path(@building)
     end
@@ -83,8 +85,8 @@ module Buildings
             defect.id, expert.id
           ])
 
-          new_evaluations << { defect_id: defect.id, expert_id: expert.id,
-                               rating: rand(0.0..1.0).round(2) }
+          new_evaluations << {defect_id: defect.id, expert_id: expert.id,
+                               rating: rand(0.0..1.0).round(2)}
         end
       end
     end

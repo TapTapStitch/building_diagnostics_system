@@ -8,7 +8,7 @@ class BuildingsController < ApplicationController
   end
 
   def show
-    recalculate_all = params[:recalculate_all] == 'true'
+    recalculate_all = params[:recalculate_all] == "true"
     step = params[:step].to_i
     @building_presenter = BuildingPresenter.new(@building, recalculate_all:, step:)
   end
@@ -17,12 +17,13 @@ class BuildingsController < ApplicationController
     @building = Building.new
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     @building = Building.new(building_params)
     if @building.save
-      redirect_to buildings_url, notice: t('buildings.create')
+      redirect_to buildings_url, notice: t("buildings.create")
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,7 +31,7 @@ class BuildingsController < ApplicationController
 
   def update
     if @building.update(building_params)
-      redirect_to building_url(@building), notice: t('buildings.update')
+      redirect_to building_url(@building), notice: t("buildings.update")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,7 +40,7 @@ class BuildingsController < ApplicationController
   def destroy
     Building.includes(defects: :evaluations, experts: :evaluations).find(params[:id]).destroy!
 
-    redirect_to buildings_url, notice: t('buildings.destroy')
+    redirect_to buildings_url, notice: t("buildings.destroy")
   end
 
   private
